@@ -1,0 +1,6 @@
+"codlivro","titulo","editora","valor","codcategoria","codbib","situacao"
+100,"Senhor dos Aneis","XYZ","75",25,1,"Disponivel"
+200,"Harry Potter","XYZ","35",25,1,"Disponivel"
+300,"O Cortico","ABC","50",45,1,"Disponivel"
+400,"Aprenda Quimica","DEF","70",55,1,"Disponivel"
+500,"Outro Lado da Meia Noite","FGH","80",35,1,"Indisponivel"
