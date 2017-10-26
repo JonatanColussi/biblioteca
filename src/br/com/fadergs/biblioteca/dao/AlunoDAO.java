@@ -14,10 +14,10 @@ public class AlunoDAO {
 	
 private Connection con = Conexao.getConnection();
 	
-	public void cadastrar (Aluno aluno) {
+	public boolean cadastrar (Aluno aluno) {
 		
 		String sql = "INSERT INTO alunos (codmatricula, nome, endereco, situacao) values (?, ?, ?, ?)";
-		
+		boolean retorno = false;
 		try {
 			PreparedStatement preparador = con.prepareStatement(sql);
 			
@@ -30,21 +30,21 @@ private Connection con = Conexao.getConnection();
 			preparador.execute();
 			preparador.close();
 			
-			System.out.println("Cadastrado com sucesso!");
+			retorno = true;
 			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			
 		}
-		
+		return retorno;
 	}
 	
 	
-	public void editar (Aluno aluno) {
+	public boolean editar (Aluno aluno) {
 		
 		String sql = "UPDATE alunos SET codmatricula = ?, nome = ?, endereco = ?, situacao = ? where codmatricula = ?";
-		
+		boolean retorno = false;
 		try {
 			PreparedStatement preparador = con.prepareStatement(sql);
 			
@@ -58,14 +58,14 @@ private Connection con = Conexao.getConnection();
 			preparador.execute();
 			preparador.close();
 			
-			System.out.println("Alterado com sucesso!");
+			retorno = true;
 			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			
 		}
-		
+		return retorno;
 	}
 	
 	

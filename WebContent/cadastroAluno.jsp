@@ -6,8 +6,8 @@
         <div class="card-body">
           <form action="">
             <div class="form-group">
-              <label for="matricula">Matricula</label>
-              <input type="text" name="matricula" class="form-control">
+              <label for="codmatricula">Matricula</label>
+              <input type="text" name="codmatricula" class="form-control">
             </div>
             <div class="form-group">
               <label for="nome">Nome</label>

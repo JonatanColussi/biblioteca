@@ -14,10 +14,10 @@ public class LivroDAO {
 	
 	private Connection con = Conexao.getConnection();
 	
-	public void cadastrar (Livro livro) {
+	public boolean cadastrar (Livro livro) {
 		
 		String sql = "INSERT INTO livros (titulo, editora, valor, codcategoria, codbib, situacao) values (?, ?, ?, ?, ?, ?)";
-		
+		boolean retorno = false;
 		try {
 			PreparedStatement preparador = con.prepareStatement(sql);
 			preparador.setString(1, livro.getTitulo());
@@ -31,20 +31,21 @@ public class LivroDAO {
 			preparador.execute();
 			preparador.close();
 			
-			System.out.println("Cadastrado com sucesso!");
+			retorno = true;
 			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			
 		}
+		return retorno;
 	}
 	
 	
-	public void editar (Livro livro) {
+	public boolean editar (Livro livro) {
 		
 		String sql = "UPDATE livros SET titulo = ?, editora = ?, valor = ?, codcategoria = ?, codbib = ?, situacao = ? where codlivro = ?";
-		
+		boolean retorno = false;
 		try {
 			PreparedStatement preparador = con.prepareStatement(sql);
 			preparador.setString(1, livro.getTitulo());
@@ -59,14 +60,14 @@ public class LivroDAO {
 			preparador.execute();
 			preparador.close();
 			
-			System.out.println("Alterado com sucesso!");
+			retorno = true;
 			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			
 		}
-		
+		return retorno;
 	}
 	
 	

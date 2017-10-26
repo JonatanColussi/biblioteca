@@ -15,10 +15,10 @@ public class FuncionarioDAO {
 	
 	private Connection con = Conexao.getConnection();
 	
-	public void cadastrar (Funcionario funcionario) {
+	public boolean cadastrar (Funcionario funcionario) {
 		
 		String sql = "INSERT INTO funcionario (nome, endereco, telefone, salario, codbib, login, senha) values (?, ?, ?, ?, ?, ?, ?)";
-		
+		boolean retorno = false;
 		try {
 			PreparedStatement preparador = con.prepareStatement(sql);
 			preparador.setString(1, funcionario.getNome());
@@ -33,20 +33,20 @@ public class FuncionarioDAO {
 			preparador.execute();
 			preparador.close();
 			
-			System.out.println("Cadastrado com sucesso!");
+			retorno = true;
 			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			
 		}
-		
+		return retorno;
 	}
 	
-	public void editar (Funcionario funcionario) {
+	public boolean editar (Funcionario funcionario) {
 		
 		String sql = "UPDATE funcionario SET nome = ?, endereco = ?, telefone = ?, salario = ?, codbib = ?, login = ?, senha = ? where codfunc = ?";
-		
+		boolean retorno = false;
 		try {
 			PreparedStatement preparador = con.prepareStatement(sql);
 			preparador.setString(1, funcionario.getNome());
@@ -61,14 +61,14 @@ public class FuncionarioDAO {
 			preparador.execute();
 			preparador.close();
 			
-			System.out.println("Alterado com sucesso!");
+			retorno = true;
 			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			
 		}
-		
+		return retorno;
 	}
 	
 	public void remover (Funcionario funcionario) {

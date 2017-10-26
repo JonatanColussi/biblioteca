@@ -10,6 +10,7 @@
                 <input type="text" name="descricao" class="form-control">
               </div>
               <div class="form-group text-right">
+                <input type="hidden" name="codcategoria" value="0">
                 <a href="index.html" class="btn btn-link">Voltar</a>
                 <input type="submit" class="btn btn-primary" value="Cadastrar">
               </div>
