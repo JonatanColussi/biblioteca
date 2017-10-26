@@ -14,8 +14,8 @@
               </select>
             </div>
             <div class="form-group">
-              <label for="situacao">Categoria</label>
-              <select name="situacao" class="form-control">
+              <label for="codcat">Categoria</label>
+              <select name="codcat" class="form-control">
                 <option value="1">Categoria A</option>
                 <option value="2">Categoria B</option>
               </select>
@@ -33,6 +33,7 @@
               <input type="text" name="valor" class="form-control">
             </div>
             <div class="form-group text-right">
+              <input type="hidden" name="codliv" value="0">
               <a href="index.html" class="btn btn-link">Voltar</a>
               <input type="submit" class="btn btn-primary" value="Cadastrar">
             </div>

@@ -14,10 +14,10 @@ public class CategoriaDAO {
 	
 	private Connection con = Conexao.getConnection();
 	
-	public void cadastrar (Categoria categoria) {
+	public boolean cadastrar (Categoria categoria) {
 		
 		String sql = "INSERT INTO categoria (descricao) values (?)";
-		
+		boolean retorno = false;
 		try {
 			PreparedStatement preparador = con.prepareStatement(sql);
 			
@@ -26,21 +26,21 @@ public class CategoriaDAO {
 			preparador.execute();
 			preparador.close();
 			
-			System.out.println("Cadastrado com sucesso!");
+			retorno = true;
 			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			
 		}
-		
+		return retorno;
 	}
 	
 	
-	public void editar (Categoria categoria) {
+	public boolean editar (Categoria categoria) {
 		
 		String sql = "UPDATE categoria SET descricao = ? where codcategoria = ?";
-		
+		boolean retorno = false;
 		try {
 			PreparedStatement preparador = con.prepareStatement(sql);
 			
@@ -50,14 +50,14 @@ public class CategoriaDAO {
 			preparador.execute();
 			preparador.close();
 			
-			System.out.println("Alterado com sucesso!");
+			retorno = true;
 			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			
 		}
-		
+		return retorno;
 	}
 	
 	
