@@ -14,10 +14,10 @@ public class BibliotecaDAO {
 	
 	private Connection con = Conexao.getConnection();
 	
-	public void cadastrar (Biblioteca biblioteca) {
+	public boolean cadastrar (Biblioteca biblioteca) {
 		
 		String sql = "INSERT INTO biblioteca (nome, endereco) values (?, ?)";
-		
+		boolean retorno = false;
 		try {
 			PreparedStatement preparador = con.prepareStatement(sql);
 			
@@ -27,20 +27,21 @@ public class BibliotecaDAO {
 			preparador.execute();
 			preparador.close();
 			
-			System.out.println("Cadastrado com sucesso!");
+			retorno = true;
 			
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 			
 		}
-		
+		return retorno;
 	}
 	
 	
-	public void editar (Biblioteca biblioteca) {
+	public boolean editar (Biblioteca biblioteca) {
 	
 		String sql = "UPDATE biblioteca SET nome = ?, endereco = ? where codbib = ?";
+		boolean retorno = false;
 		
 		try {
 			PreparedStatement preparador = con.prepareStatement(sql);
@@ -52,7 +53,7 @@ public class BibliotecaDAO {
 			preparador.execute();
 			preparador.close();
 			
-			System.out.println("Alterado com sucesso!");
+			retorno = true;
 			
 		} catch (SQLException e) {
 			
@@ -60,6 +61,7 @@ public class BibliotecaDAO {
 			
 		}
 		
+		return retorno;
 	}
 	
 	
