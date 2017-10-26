@@ -1,17 +1,4 @@
-<!doctype html>
-<html lang="pt-br">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="Jonatan Colussi, Rene Danni">
-
-  <title>Biblioteca Fadergs</title>
-  <link href="assets/css/bootstrap.min.css" rel="stylesheet">
-</head>
-
-<body>
-
+﻿<%@include file="includes/header.jsp" %>
   <main role="main" class="container">
     <div class="row">
       <div class="col-md-4 offset-md-4">
@@ -59,9 +46,4 @@
         </div>
       </div>
     </div>
-  </main>
-  <script src="assets/js/jquery-3.2.1.min.js"></script>
-  <script src="assets/js/popper.js"></script>
-  <script src="assets/js/bootstrap.min.js"></script>
-</body>
-</html>
+<%@include file="includes/footer.jsp" %>
