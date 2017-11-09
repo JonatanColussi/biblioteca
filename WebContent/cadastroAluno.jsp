@@ -4,7 +4,7 @@
     <div class="col-md-4 offset-md-4">
       <div class="card">
         <div class="card-body">
-          <form action="">
+          <form action="AlunoController.do" method="POST">
             <div class="form-group">
               <label for="codmatricula">Matricula</label>
               <input type="text" name="codmatricula" class="form-control">

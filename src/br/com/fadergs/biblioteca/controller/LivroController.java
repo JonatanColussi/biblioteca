@@ -1,4 +1,4 @@
-package br.com.fadergs.livro.controller;
+package br.com.fadergs.biblioteca.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import br.com.fadergs.livro.dao.LivroDAO;
-import br.com.fadergs.livro.entidades.Livro;
+import br.com.fadergs.biblioteca.dao.LivroDAO;
+import br.com.fadergs.biblioteca.entidades.Livro;
 
 /**
  * Servlet implementation class LivroController

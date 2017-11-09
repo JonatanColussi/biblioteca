@@ -1,4 +1,4 @@
-package br.com.fadergs.categoria.controller;
+package br.com.fadergs.biblioteca.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import br.com.fadergs.categoria.dao.CategoriaDAO;
-import br.com.fadergs.categoria.entidades.Categoria;
+import br.com.fadergs.biblioteca.dao.CategoriaDAO;
+import br.com.fadergs.biblioteca.entidades.Categoria;
 
 /**
  * Servlet implementation class CategoriaController
@@ -52,7 +52,7 @@ public class CategoriaController extends HttpServlet {
 
 		boolean resultado = false;
 
-		if(cat.getCodcategoria() != null){
+		if(cat.getCodcategoria() == null){
 			resultado = catDAO.cadastrar(cat);
 	
 		}else{
@@ -61,7 +61,7 @@ public class CategoriaController extends HttpServlet {
 
 		String resposta = (resultado) ? "true" : "false";
 
-		response.sendRedirect("/listaCategorias.jsp?success"+resposta);
+		response.sendRedirect("/listaCategoria.jsp?success="+resposta);
 	}
 
 }

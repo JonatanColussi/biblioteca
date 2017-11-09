@@ -1,4 +1,4 @@
-package br.com.fadergs.Funcionario.controller;
+package br.com.fadergs.biblioteca.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import br.com.fadergs.Funcionario.dao.FuncionarioDAO;
-import br.com.fadergs.Funcionario.entidades.Funcionario;
+import br.com.fadergs.biblioteca.dao.FuncionarioDAO;
+import br.com.fadergs.biblioteca.entidades.Funcionario;
 
 /**
  * Servlet implementation class FuncionarioController
@@ -42,7 +42,7 @@ public class FuncionarioController extends HttpServlet {
 		String nome = request.getParameter("nome");
 		String endereco = request.getParameter("endereco");
 		String telefone = request.getParameter("telefone");
-		String salario = request.getParameter("salario");
+		double salario = request.getParameter("salario");
 		String usuario = request.getParameter("usuario");
 		String senha = request.getParameter("senha");
 
@@ -64,7 +64,7 @@ public class FuncionarioController extends HttpServlet {
 
 		boolean resultado = false;
 
-		if(func.getCodfunc() != null){
+		if(func.getCodfunc() == null){
 			resultado = funcDAO.cadastrar(func);
 	
 		}else{
@@ -73,7 +73,7 @@ public class FuncionarioController extends HttpServlet {
 
 		String resposta = (resultado) ? "true" : "false";
 
-		response.sendRedirect("/listaFuncionarios.jsp?success"+resposta);
+		response.sendRedirect("listaFuncionarios.jsp?success="+resposta);
 	}
 
 }

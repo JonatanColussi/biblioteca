@@ -4,7 +4,7 @@
     <div class="col-md-4 offset-md-4">
       <div class="card">
         <div class="card-body">
-          <form action="">
+          <form action="BibliotecaController.do" method="POST">
             <div class="form-group">
               <label for="nome">Nome</label>
               <input type="text" name="nome" class="form-control">

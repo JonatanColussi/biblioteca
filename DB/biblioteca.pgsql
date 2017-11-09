@@ -21,19 +21,19 @@ ALTER DATABASE biblioteca
 CREATE TABLE public.alunos
 (
     codmatricula bigint NOT NULL,
-    nome character varying(150) COLLATE "default".pg_catalog NOT NULL,
-    endereco character varying(150) COLLATE "default".pg_catalog,
-    situacao character varying(50) COLLATE "default".pg_catalog,
+    nome character varying(150) NOT NULL,
+    endereco character varying(150),
+    situacao character varying(50),
     CONSTRAINT alunos_pkey PRIMARY KEY (codmatricula)
 )
 WITH (
     OIDS = FALSE
-)
-TABLESPACE pg_default;
+);
 
 ALTER TABLE public.alunos
     OWNER to postgres;
-    
+
+
 -- Table: public.biblioteca
 
 -- DROP TABLE public.biblioteca;
@@ -41,14 +41,13 @@ ALTER TABLE public.alunos
 CREATE TABLE public.biblioteca
 (
     codbib bigint NOT NULL DEFAULT nextval('biblioteca_codbib_seq'::regclass),
-    nome character varying(90) COLLATE "default".pg_catalog NOT NULL,
-    endereco character varying(150) COLLATE "default".pg_catalog,
+    nome character varying(90) NOT NULL,
+    endereco character varying(150),
     CONSTRAINT biblioteca_pkey PRIMARY KEY (codbib)
 )
 WITH (
     OIDS = FALSE
-)
-TABLESPACE pg_default;
+);
 
 ALTER TABLE public.biblioteca
     OWNER to postgres;
@@ -60,13 +59,42 @@ ALTER TABLE public.biblioteca
 CREATE TABLE public.categoria
 (
     codcategoria bigint NOT NULL DEFAULT nextval('categoria_codcategoria_seq'::regclass),
-    descricao character varying(90) COLLATE "default".pg_catalog NOT NULL,
+    descricao character varying(90) NOT NULL,
     CONSTRAINT categoria_pkey PRIMARY KEY (codcategoria)
 )
 WITH (
     OIDS = FALSE
+);
+
+-- Table: public.livros
+
+-- DROP TABLE public.livros;
+
+CREATE TABLE public.livros
+(
+    codlivro bigint NOT NULL DEFAULT nextval('livros_codlivro_seq'::regclass),
+    titulo character varying(150) NOT NULL,
+    editora character varying(150),
+    valor double precision,
+    codcategoria bigint NOT NULL,
+    codbib bigint NOT NULL,
+    situacao character varying(90),
+    CONSTRAINT livros_pkey PRIMARY KEY (codlivro),
+    CONSTRAINT livros_codbib FOREIGN KEY (codbib)
+        REFERENCES public.biblioteca (codbib) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION,
+    CONSTRAINT livros_codcategoria FOREIGN KEY (codcategoria)
+        REFERENCES public.categoria (codcategoria) MATCH SIMPLE
+        ON UPDATE NO ACTION
+        ON DELETE NO ACTION
 )
-TABLESPACE pg_default;
+WITH (
+    OIDS = FALSE
+);
+
+ALTER TABLE public.livros
+    OWNER to postgres;
 
 ALTER TABLE public.categoria
     OWNER to postgres;
@@ -94,8 +122,7 @@ CREATE TABLE public.empresta
 )
 WITH (
     OIDS = FALSE
-)
-TABLESPACE pg_default;
+);
 
 ALTER TABLE public.empresta
     OWNER to postgres;
@@ -107,7 +134,7 @@ ALTER TABLE public.empresta
 CREATE INDEX fki_empresta_codlivro
     ON public.empresta USING btree
     (codlivro)
-    TABLESPACE pg_default;
+;
 
 -- Index: fki_empresta_codmatricula
 
@@ -116,7 +143,7 @@ CREATE INDEX fki_empresta_codlivro
 CREATE INDEX fki_empresta_codmatricula
     ON public.empresta USING btree
     (codmatricula)
-    TABLESPACE pg_default;
+;
 
 -- Table: public.funcionario
 
@@ -125,9 +152,9 @@ CREATE INDEX fki_empresta_codmatricula
 CREATE TABLE public.funcionario
 (
     codfunc bigint NOT NULL DEFAULT nextval('funcionario_codfunc_seq'::regclass),
-    nome character varying(90) COLLATE "default".pg_catalog NOT NULL,
-    endereco character varying(150) COLLATE "default".pg_catalog,
-    telefone character varying(20) COLLATE "default".pg_catalog,
+    nome character varying(90) NOT NULL,
+    endereco character varying(150),
+    telefone character varying(20),
     salario double precision,
     codbib bigint NOT NULL,
     CONSTRAINT funcionario_pkey PRIMARY KEY (codfunc),
@@ -138,8 +165,7 @@ CREATE TABLE public.funcionario
 )
 WITH (
     OIDS = FALSE
-)
-TABLESPACE pg_default;
+);
 
 ALTER TABLE public.funcionario
     OWNER to postgres;
@@ -151,38 +177,7 @@ ALTER TABLE public.funcionario
 CREATE INDEX fki_funcionario_codbib
     ON public.funcionario USING btree
     (codbib)
-    TABLESPACE pg_default;
-    
--- Table: public.livros
-
--- DROP TABLE public.livros;
-
-CREATE TABLE public.livros
-(
-    codlivro bigint NOT NULL DEFAULT nextval('livros_codlivro_seq'::regclass),
-    titulo character varying(150) COLLATE "default".pg_catalog NOT NULL,
-    editora character varying(150) COLLATE "default".pg_catalog,
-    valor double precision,
-    codcategoria bigint NOT NULL,
-    codbib bigint NOT NULL,
-    situacao character varying(90) COLLATE "default".pg_catalog,
-    CONSTRAINT livros_pkey PRIMARY KEY (codlivro),
-    CONSTRAINT livros_codbib FOREIGN KEY (codbib)
-        REFERENCES public.biblioteca (codbib) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
-    CONSTRAINT livros_codcategoria FOREIGN KEY (codcategoria)
-        REFERENCES public.categoria (codcategoria) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-)
-WITH (
-    OIDS = FALSE
-)
-TABLESPACE pg_default;
-
-ALTER TABLE public.livros
-    OWNER to postgres;
+;
 
 -- Index: fki_livros_codbib
 
@@ -191,7 +186,7 @@ ALTER TABLE public.livros
 CREATE INDEX fki_livros_codbib
     ON public.livros USING btree
     (codbib)
-    TABLESPACE pg_default;
+;
 
 -- Index: fki_livros_codcategoria
 
@@ -200,4 +195,58 @@ CREATE INDEX fki_livros_codbib
 CREATE INDEX fki_livros_codcategoria
     ON public.livros USING btree
     (codcategoria)
-    TABLESPACE pg_default;
+;
+
+
+
+
+
+CREATE SEQUENCE biblioteca_codbib_seq
+    INCREMENT 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    START 1
+    CACHE 1;
+
+CREATE SEQUENCE categoria_codcategoria_seq
+    INCREMENT 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    START 1
+    CACHE 1;
+
+CREATE SEQUENCE funcionario_codfunc_seq
+    INCREMENT 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    START 1
+    CACHE 1;
+
+CREATE SEQUENCE livros_codlivro_seq
+    INCREMENT 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    START 1
+    CACHE 1;
+
+
+
+-- SELECT
+--     e1.Nome,
+--     e2.Nome as nome_amigo, 
+--     s.Valor as salario_amigo
+-- FROM
+--     Estudantes e1
+-- LEFT JOIN
+--     Amigos a
+--     ON a.ID = e1.ID
+-- LEFT JOIN
+--     Estudante e2
+--     ON a.Amigo_ID = e2.id
+-- LEFT JOIN
+--     Salarios s
+--     ON s.ID = e2.id
+-- ORDER BY
+--     s.Valor DESC
+
+--     

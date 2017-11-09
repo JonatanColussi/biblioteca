@@ -54,7 +54,7 @@ public class BibliotecaController extends HttpServlet {
 
 		boolean resultado = false;
 
-		if(bib.getCodbib() != null){
+		if(bib.getCodbib() == null){
 			resultado = bibDAO.cadastrar(bib);
 	
 		}else{
@@ -63,7 +63,7 @@ public class BibliotecaController extends HttpServlet {
 
 		String resposta = (resultado) ? "true" : "false";
 
-		response.sendRedirect("/listaBibliotecas.jsp?success"+resposta);
+		response.sendRedirect("listaBibliotecas.jsp?success"+resposta);
 	}
 
 }

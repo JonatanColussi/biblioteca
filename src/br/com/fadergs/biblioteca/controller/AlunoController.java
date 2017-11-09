@@ -1,4 +1,4 @@
-package br.com.fadergs.aluno.controller;
+package br.com.fadergs.biblioteca.controller;
 
 import java.io.IOException;
 import javax.servlet.ServletException;
@@ -7,8 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import br.com.fadergs.aluno.dao.AlunoDAO;
-import br.com.fadergs.aluno.entidades.Aluno;
+import br.com.fadergs.biblioteca.dao.AlunoDAO;
+import br.com.fadergs.biblioteca.entidades.Aluno;
 
 /**
  * Servlet implementation class AlunoController
@@ -43,9 +43,9 @@ public class AlunoController extends HttpServlet {
 		String situacao = request.getParameter("situacao");
 
 		Aluno alu = new Aluno();
-		if(codmatricula > 0){
+		// if(codmatricula > 0){
 			alu.setCodmatricula(codmatricula);
-		}
+		// }
 
 		alu.setNome(nome);
 		alu.setEndereco(endereco);
@@ -56,16 +56,16 @@ public class AlunoController extends HttpServlet {
 
 		boolean resultado = false;
 
-		if(alu.getCodmatricula() != null){
+		// if(alu.getCodmatricula() != null){
 			resultado = aluDAO.cadastrar(alu);
 	
-		}else{
-			resultado = aluDAO.editar(alu);
-		}
+		// }else{
+		// 	resultado = aluDAO.editar(alu);
+		// }
 
 		String resposta = (resultado) ? "true" : "false";
 
-		response.sendRedirect("/listaAlunos.jsp?success"+resposta);
+		response.sendRedirect("listaAlunos.jsp?success="+resposta);
 	}
 
 }

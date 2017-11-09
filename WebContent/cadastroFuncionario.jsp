@@ -4,7 +4,7 @@
       <div class="col-md-4 offset-md-4">
         <div class="card">
           <div class="card-body">
-            <form action="">
+            <form action="FuncionarioController.do" method="POST">
               <div class="form-group">
                 <label for="codbib">Biblioteca</label>
                 <select name="codbib" class="form-control">

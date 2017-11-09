@@ -12,12 +12,12 @@ public class Conexao {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
-			con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/biblioteca","postgres","molokovelocet");
+			con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/biblioteca","postgres","fadergs");
 			System.out.println("Conectado com sucesso");
 		} catch (SQLException e) {
-			System.out.println("Falha na conex√£o");
+			System.out.println("Falha na conex„o");
 		} catch (ClassNotFoundException e) {
-			System.out.println("Driver n√£o encontrado.");
+			System.out.println("Driver n„o encontrado.");
 		}
 		
 		return con;
