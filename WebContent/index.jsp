@@ -12,7 +12,7 @@
           <input type="password" name="senha" class="form-control">
         </div>
         <div class="form-group text-right">
-          <a href="cadastroFuncionario.html" class="btn btn-link">Criar conta</a>
+          <a href="cadastroFuncionario.jsp" class="btn btn-link">Criar conta</a>
           <input type="submit" class="btn btn-primary" value="Entrar">
         </div>
       </form>

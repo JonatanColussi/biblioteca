@@ -14,7 +14,7 @@
               <input type="text" name="endereco" class="form-control">
             </div>
             <div class="form-group text-right">
-              <a href="index.html" class="btn btn-link">Voltar</a>
+              <a href="index.jsp" class="btn btn-link">Voltar</a>
               <input type="hidden" name="codbib" value="0">
               <input type="submit" class="btn btn-primary" value="Cadastrar">
             </div>

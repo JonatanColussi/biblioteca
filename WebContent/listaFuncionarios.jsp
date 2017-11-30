@@ -1,35 +1,1 @@
-Ôªø<%@include file="includes/header.jsp" %>
-<main role="main" class="container">
-	<div class="row">
-		<div class="col-md-12">
-			<h1>Funcion√°rios</h1>
-			<a href="" class="btn btn-primary mb_10">Cadastar Funcion√°rio</a>
-		</div>
-	</div>
-	<div class="row">
-		<div class="col-md-12">
-			<table class="table table-striped table-bordered table-hover">
-				<thead>
-					<tr>
-						<th>Biblioteca</th>
-						<th>Nome</th>
-						<th>Usu√°rio</th>
-						<th>A√ß√µes</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr>
-						<td>Biblioteca central</td>
-						<td>Jo√£o</td>
-						<td>joaozinho0123</td>
-						<td>
-							<a href="" class="btn btn-warning">Editar</a>
-							<a href="" class="btn btn-danger">Deletar</a>
-						</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
-</main>
-<%@include file="includes/footer.jsp" %>
+<%@include file="includes/header.jsp" %><%@ page import="java.util.List" %><%@ page import="br.com.fadergs.biblioteca.entidades.Funcionario" %><main role="main" class="container">	<div class="row">		<div class="col-md-12">			<h1>Funcion·rios</h1>			<a href="FuncionarioController.do?method=inserir" class="btn btn-primary mb_10">Cadastar Funcion·rio</a>		</div>	</div>	<div class="row">		<div class="col-md-12">			<table class="table table-striped table-bordered table-hover">				<thead>					<tr>						<th>Biblioteca</th>						<th>Nome</th>						<th>Usu·rio</th>						<th>AÁıes</th>					</tr>				</thead>				<tbody>					<%						List<Funcionario> funcionariosLista = (List<Funcionario>) request.getAttribute("funcionarios");						for (Funcionario func: funcionariosLista) {							%>								<tr>									<td><%= func.getCodbib() %></td>									<td><%= func.getNome() %></td>									<td><%= func.getLogin() %></td>									<td>										<a href="FuncionarioController.do?method=editar&id=<%= func.getCodfunc() %>" class="btn btn-warning">Editar</a>										<a href="FuncionarioController.do?method=excluir&id=<%= func.getCodfunc() %>" class="btn btn-danger">Deletar</a>									</td>								</tr>							<%						}					%>				</tbody>			</table>		</div>	</div></main><%@include file="includes/footer.jsp" %>

@@ -25,7 +25,7 @@
               </select>
             </div>
             <div class="form-group text-right">
-              <a href="index.html" class="btn btn-link">Voltar</a>
+              <a href="index.jsp" class="btn btn-link">Voltar</a>
               <input type="submit" class="btn btn-primary" value="Cadastrar">
             </div>
           </form>
