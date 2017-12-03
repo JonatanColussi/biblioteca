@@ -1,13 +1,18 @@
 package br.com.fadergs.biblioteca.controller;
 
 import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import br.com.fadergs.biblioteca.dao.BibliotecaDAO;
 import br.com.fadergs.biblioteca.dao.FuncionarioDAO;
+import br.com.fadergs.biblioteca.entidades.Biblioteca;
 import br.com.fadergs.biblioteca.entidades.Funcionario;
 
 /**
@@ -29,8 +34,57 @@ public class FuncionarioController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		String method = request.getParameter("method");
+		
+		if (method.equals("listar")) {
+			FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+			List<Funcionario> funcionariosLista = funcionarioDAO.buscarTodos();
+			
+			request.setAttribute("funcionarios", funcionariosLista);
+			
+			RequestDispatcher saida = request.getRequestDispatcher("listaFuncionarios.jsp");
+			saida.forward(request, response);
+		} else if (method.equals("inserir")) {
+			Funcionario funcionario = new Funcionario();
+			BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+			List<Biblioteca> bibliotecas = bibliotecaDAO.buscarTodos();
+			
+			funcionario.setCodfunc(0);
+			
+			request.setAttribute("funcionario", funcionario);
+			request.setAttribute("bibliotecas", bibliotecas);
+			
+			RequestDispatcher saida = request.getRequestDispatcher("cadastroFuncionario.jsp");
+			saida.forward(request, response);
+		} else if (method.equals("editar")) {
+			try {
+				int codfunc = Integer.parseInt(request.getParameter("id"));
+				FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+				Funcionario funcionario = funcionarioDAO.buscarFuncionarioPorCod(codfunc);
+				
+				BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+				List<Biblioteca> bibliotecas = bibliotecaDAO.buscarTodos();
+				
+				request.setAttribute("funcionario", funcionario);
+				request.setAttribute("bibliotecas", bibliotecas);
+				
+				RequestDispatcher saida = request.getRequestDispatcher("cadastroFuncionario.jsp");
+				saida.forward(request, response);
+			} catch(Exception e) {
+				response.sendRedirect("FuncionarioController.do?method=listar");
+			}
+		} else if (method.startsWith("excluir")) {
+			try {
+				int codfunc = Integer.parseInt(request.getParameter("id"));
+				FuncionarioDAO funcionarioDAO = new FuncionarioDAO();
+				Funcionario funcionario = funcionarioDAO.buscarFuncionarioPorCod(codfunc);
+				
+				funcionarioDAO.remover(funcionario);
+				response.sendRedirect("FuncionarioController.do?method=listar");
+			} catch(Exception e) {
+				response.sendRedirect("FuncionarioController.do?method=listar");
+			}
+		}
 	}
 
 	/**
@@ -67,19 +121,13 @@ public class FuncionarioController extends HttpServlet {
 		
 		FuncionarioDAO funcDAO = new FuncionarioDAO();
 
-
-		boolean resultado = false;
-
 		if(func.getCodfunc() == null){
-			resultado = funcDAO.cadastrar(func);
-	
+			funcDAO.cadastrar(func);
 		}else{
-			resultado = funcDAO.editar(func);
+			funcDAO.editar(func);
 		}
 
-		String resposta = (resultado) ? "true" : "false";
-
-		response.sendRedirect("listaFuncionarios.jsp?success="+resposta);
+		response.sendRedirect("FuncionarioController.do?method=listar");
 	}
 
 }

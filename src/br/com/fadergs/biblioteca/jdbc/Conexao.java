@@ -12,7 +12,7 @@ public class Conexao {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
-			con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/biblioteca","postgres","fadergs");
+			con = DriverManager.getConnection("jdbc:postgresql://localhost:5432/biblioteca","postgres","root");
 			System.out.println("Conectado com sucesso");
 		} catch (SQLException e) {
 			System.out.println("Falha na conexão");

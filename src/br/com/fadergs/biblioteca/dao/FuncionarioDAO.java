@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import br.com.fadergs.biblioteca.jdbc.Conexao;
 import br.com.fadergs.biblioteca.entidades.Funcionario;
@@ -92,10 +93,10 @@ public class FuncionarioDAO {
 		
 	}
 	
-	public ArrayList<Funcionario> buscarTodos () {
+	public List<Funcionario> buscarTodos () {
 		
 		String sql = "Select * from funcionario";
-		ArrayList<Funcionario> funcionariosLista = new ArrayList<Funcionario>();
+		List<Funcionario> funcionariosLista = new ArrayList<Funcionario>();
 		try {
 			Statement statement = con.createStatement();
 			ResultSet result = statement.executeQuery(sql);

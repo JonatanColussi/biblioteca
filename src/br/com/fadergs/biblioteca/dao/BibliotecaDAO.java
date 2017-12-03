@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import br.com.fadergs.biblioteca.entidades.Biblioteca;
 import br.com.fadergs.biblioteca.jdbc.Conexao;
@@ -85,10 +86,10 @@ public class BibliotecaDAO {
 	}
 	
 	
-	public ArrayList<Biblioteca> buscarTodos () {
+	public List<Biblioteca> buscarTodos () {
 		
 		String sql = "Select * from biblioteca";
-		ArrayList<Biblioteca> bibliotecasLista = new ArrayList<Biblioteca>();
+		List<Biblioteca> bibliotecasLista = new ArrayList<Biblioteca>();
 		try {
 			Statement statement = con.createStatement();
 			ResultSet result = statement.executeQuery(sql);
