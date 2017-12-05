@@ -1,4 +1,6 @@
-ï»¿<%@include file="includes/header.jsp" %>
+<%@include file="includes/header.jsp" %>
+<%@ page import="java.util.List" %>
+<%@ page import="br.com.fadergs.biblioteca.entidades.Aluno" %>
 <main role="main" class="container">
   <div class="row">
     <div class="col-md-4 offset-md-4">
@@ -7,26 +9,27 @@
           <form action="AlunoController.do" method="POST">
             <div class="form-group">
               <label for="codmatricula">Matricula</label>
-              <input type="text" name="codmatricula" class="form-control">
+              <input type="text" name="codmatricula" class="form-control" value="${aluno.getCodmatricula()}">
             </div>
             <div class="form-group">
               <label for="nome">Nome</label>
-              <input type="text" name="nome" class="form-control">
+              <input type="text" name="nome" class="form-control" value="${aluno.getNome()}">
             </div>
             <div class="form-group">
-              <label for="endereco">EndereÃ§o</label>
-              <input type="text" name="endereco" class="form-control">
+              <label for="endereco">Endereço</label>
+              <input type="text" name="endereco" class="form-control" value="${aluno.getEndereco()}">
             </div>
             <div class="form-group">
-              <label for="situacao">SituaÃ§Ã£o</label>
+              <label for="situacao">Situação</label>
               <select name="situacao" class="form-control">
-                <option value="Ativo">Ativo</option>
-                <option value="Inativo">Inativo</option>
+                <option value="Ativo" ${aluno.getSituacao() == 'Ativo' ? 'selected' : ''}>Ativo</option>
+                <option value="Inativo"${aluno.getSituacao() == 'Inativo' ? 'selected' : ''}>Inativo</option>
               </select>
             </div>
             <div class="form-group text-right">
-              <a href="index.jsp" class="btn btn-link">Voltar</a>
-              <input type="submit" class="btn btn-primary" value="Cadastrar">
+              <a href="AlunoController.do?method=listar" class="btn btn-link">Voltar</a>
+              <input type="hidden" name="codfunc" value="${funcionario.getCodmatricula()}">
+                <input type="submit" class="btn btn-primary" value="Cadastrar">
             </div>
           </form>
         </div>

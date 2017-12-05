@@ -2,12 +2,21 @@ package br.com.fadergs.biblioteca.entidades;
 
 public class Empresta {
 	
+	private Integer Codempresta;
 	private Integer Codmatricula;
 	private Integer Codlivro;
 	private String Dtretirada;
 	private String Dtprevisao;
 	private String Dtentrega;
 	
+	
+	public Integer getCodempresta() {
+		return Codempresta;
+	}
+	
+	public void setCodempresta(Integer codempresta) {
+		Codempresta = codempresta;
+	}
 	
 	public Integer getCodmatricula() {
 		return Codmatricula;

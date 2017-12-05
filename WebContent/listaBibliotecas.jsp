@@ -1,9 +1,11 @@
-ï»¿<%@include file="includes/header.jsp" %>
+<%@include file="includes/header.jsp" %>
+<%@ page import="java.util.List" %>
+<%@ page import="br.com.fadergs.biblioteca.entidades.Biblioteca" %>
 <main role="main" class="container">
 	<div class="row">
 		<div class="col-md-12">
 			<h1>Bibliotecas</h1>
-			<a href="" class="btn btn-primary mb_10">Cadastar Biblioteca</a>
+			<a href="BibliotecaController.do?method=inserir" class="btn btn-primary mb_10">Cadastrar Biblioteca</a>
 		</div>
 	</div>
 	<div class="row">
@@ -11,21 +13,30 @@
 			<table class="table table-striped table-bordered table-hover">
 				<thead>
 					<tr>
+						<th>Código</th>
 						<th>Nome</th>
-						<th>EndereÃ§o</th>
-						<th>AÃ§Ãµes</th>
+						<th>Endereço</th>
+						<th>Ações</th>
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td>Biblioteca Central</td>
-						<td>Rua teste</td>
-						<td>
-							<a href="" class="btn btn-primary">Cadastrar Livro</a>
-							<a href="" class="btn btn-warning">Editar</a>
-							<a href="" class="btn btn-danger">Deletar</a>
-						</td>
-					</tr>
+					<%
+						List<Biblioteca> bibliotecasLista = (List<Biblioteca>) request.getAttribute("bibliotecas");
+						for (Biblioteca bib: bibliotecasLista) {
+							%>
+								<tr>
+									<td><%= bib.getCodbib() %></td>
+									<td><%= bib.getNome() %></td>
+									<td><%= bib.getEndereco() %></td>
+
+									<td>
+										<a href="BibliotecaController.do?method=editar&id=<%= bib.getCodbib() %>" class="btn btn-warning">Editar</a>
+										<a href="BibliotecaController.do?method=excluir&id=<%= bib.getCodbib() %>" class="btn btn-danger">Deletar</a>
+									</td>
+								</tr>
+							<%
+						}
+					%>
 				</tbody>
 			</table>
 		</div>

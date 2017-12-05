@@ -1,14 +1,21 @@
 package br.com.fadergs.biblioteca.controller;
 
 import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import br.com.fadergs.biblioteca.dao.BibliotecaDAO;
 import br.com.fadergs.biblioteca.dao.LivroDAO;
+import br.com.fadergs.biblioteca.entidades.Biblioteca;
 import br.com.fadergs.biblioteca.entidades.Livro;
+import br.com.fadergs.biblioteca.dao.CategoriaDAO;
+import br.com.fadergs.biblioteca.entidades.Categoria;
 
 /**
  * Servlet implementation class LivroController
@@ -29,8 +36,65 @@ public class LivroController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		String method = request.getParameter("method");
+		
+		if (method.equals("listar")) {
+			LivroDAO livroDAO = new LivroDAO();
+			List<Livro> livrosLista = livroDAO.buscarTodos();
+			
+			request.setAttribute("livros", livrosLista);
+			
+			RequestDispatcher saida = request.getRequestDispatcher("listaLivros.jsp");
+			saida.forward(request, response);
+		} else if (method.equals("inserir")) {
+			Livro livro = new Livro();
+			BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+			List<Biblioteca> bibliotecas = bibliotecaDAO.buscarTodos();
+			
+			CategoriaDAO categoriaDAO = new CategoriaDAO();
+			List<Categoria> categorias = categoriaDAO.buscarTodos();
+			
+			livro.setCodlivro(0);
+			
+			request.setAttribute("livro", livro);
+			request.setAttribute("bibliotecas", bibliotecas);
+			request.setAttribute("categorias", categorias);
+			
+			RequestDispatcher saida = request.getRequestDispatcher("cadastroLivro.jsp");
+			saida.forward(request, response);
+		} else if (method.equals("editar")) {
+			try {
+				int codlivro = Integer.parseInt(request.getParameter("id"));
+				LivroDAO livroDAO = new LivroDAO();
+				Livro livro = livroDAO.buscarLivroPorCod(codlivro);
+				
+				BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+				List<Biblioteca> bibliotecas = bibliotecaDAO.buscarTodos();
+				
+				CategoriaDAO categoriaDAO = new CategoriaDAO();
+				List<Categoria> categorias = categoriaDAO.buscarTodos();
+				
+				request.setAttribute("livro", livro);
+				request.setAttribute("bibliotecas", bibliotecas);
+				request.setAttribute("categorias", categorias);
+				
+				RequestDispatcher saida = request.getRequestDispatcher("cadastroLivro.jsp");
+				saida.forward(request, response);
+			} catch(Exception e) {
+				response.sendRedirect("LivroController.do?method=listar");
+			}
+		} else if (method.startsWith("excluir")) {
+			try {
+				int codlivro = Integer.parseInt(request.getParameter("id"));
+				LivroDAO livroDAO = new LivroDAO();
+				Livro livro = livroDAO.buscarLivroPorCod(codlivro);
+				
+				livroDAO.remover(livro);
+				response.sendRedirect("LivroController.do?method=listar");
+			} catch(Exception e) {
+				response.sendRedirect("LivroController.do?method=listar");
+			}
+		}
 	}
 
 	/**
@@ -64,18 +128,13 @@ public class LivroController extends HttpServlet {
 		LivroDAO livDAO = new LivroDAO();
 
 
-		boolean resultado = false;
-
-		if(liv.getCodlivro() != null){
-			resultado = livDAO.cadastrar(liv);
-	
+		if(liv.getCodlivro() == null){
+			livDAO.cadastrar(liv);
 		}else{
-			resultado = livDAO.editar(liv);
+			livDAO.editar(liv);
 		}
 
-		String resposta = (resultado) ? "true" : "false";
-
-		response.sendRedirect("/listaLivros.jsp?success"+resposta);
+		response.sendRedirect("LivroController.do?method=listar");
 	}
 
 }

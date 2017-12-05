@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.List;
 
 import br.com.fadergs.biblioteca.entidades.Aluno;
 import br.com.fadergs.biblioteca.jdbc.Conexao;
@@ -91,10 +92,10 @@ private Connection con = Conexao.getConnection();
 	}
 	
 	
-	public ArrayList<Aluno> buscarTodos () {
+	public List<Aluno> buscarTodos () {
 		
 		String sql = "Select * from alunos";
-		ArrayList<Aluno> alunosLista = new ArrayList<Aluno>();
+		List<Aluno> alunosLista = new ArrayList<Aluno>();
 		try {
 			Statement statement = con.createStatement();
 			ResultSet result = statement.executeQuery(sql);

@@ -4,15 +4,19 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 //import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 //import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import br.com.fadergs.biblioteca.jdbc.Conexao;
 import br.com.fadergs.biblioteca.entidades.Empresta;
+
 
 public class EmprestaDAO {
 	
@@ -142,21 +146,19 @@ public class EmprestaDAO {
 	
 	public void prorrogarEmprestimo(Empresta empresta) throws ParseException {
 		
-		String sql = "UPDATE empresta SET dtprevisao = ? where codmatricula = ? and codlivro = ? and dtretirada = ?";
-		String sql_select = "Select dtprevisao from empresta where codmatricula = ? and codlivro = ? and dtretirada = ?";
+		String sql = "UPDATE empresta SET dtprevisao = ? where codempresta = ?";
+		String sql_select = "Select dtprevisao from empresta where codempresta = ?";
 		
 		try {
 
-			String dtretiradaSTR = empresta.getDtretirada();
-			DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			//String dtretiradaSTR = empresta.getDtretirada();
+			//DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
 			DateFormat sdf_db = new SimpleDateFormat("yyyy-MM-dd");
-			java.sql.Date dtretirada = new java.sql.Date(sdf.parse(dtretiradaSTR).getTime());
+			//java.sql.Date dtretirada = new java.sql.Date(sdf.parse(dtretiradaSTR).getTime());
 			
 			
 			PreparedStatement preparador_select = con.prepareStatement(sql_select);
-			preparador_select.setInt(1, empresta.getCodmatricula());
-			preparador_select.setInt(2, empresta.getCodlivro());
-			preparador_select.setDate(3, dtretirada);
+			preparador_select.setInt(1, empresta.getCodempresta());
 			ResultSet result = preparador_select.executeQuery();
 			
 			Empresta empresta_select = new Empresta();
@@ -170,12 +172,11 @@ public class EmprestaDAO {
 			
 			PreparedStatement preparador = con.prepareStatement(sql);
 		
+			System.out.println(dtprevisao);
 		
 			preparador.setDate(1, dtprevisao);
 			
-			preparador.setInt(2, empresta.getCodmatricula());
-			preparador.setInt(3, empresta.getCodlivro());
-			preparador.setDate(4, dtretirada);
+			preparador.setInt(2, empresta.getCodempresta());
 			
 			
 			preparador.execute();
@@ -188,6 +189,125 @@ public class EmprestaDAO {
 			e.printStackTrace();
 			
 		}
+		
+	}
+	
+	public Empresta buscarEmprestaPorCodLivro (Integer codlivro, String _situacao) {
+		
+		String sql = "Select * from empresta em, livros lv where lv.codlivro = em.codlivro and em.codlivro = ? and lv.situacao = ?";
+		Empresta empresta = new Empresta();
+		try {
+			PreparedStatement preparador = con.prepareStatement(sql);
+			preparador.setInt(1, codlivro);
+			preparador.setString(2, _situacao);
+			ResultSet result = preparador.executeQuery();
+			
+			
+			while (result.next()) {
+				
+				empresta.setCodmatricula(result.getInt(1));
+				empresta.setCodlivro(result.getInt(2));
+				String _dtRetirada[] = result.getString(3).split("-");
+				empresta.setDtretirada(_dtRetirada[2] + "/" + _dtRetirada[1] + "/" + _dtRetirada[0]);
+				String _dtPrevisao[] = result.getString(4).split("-");
+				empresta.setDtprevisao(_dtPrevisao[2] + "/" + _dtPrevisao[1] + "/" + _dtPrevisao[0]);
+				try {
+					String _dtEntrega[] = result.getString(5).split("-");
+					empresta.setDtentrega(_dtEntrega[2] + "/" + _dtEntrega[1] + "/" + _dtEntrega[0]);
+				} catch (Exception e) {
+					empresta.setDtentrega(result.getString(5));
+				}
+								
+			}
+			preparador.close();
+			
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			
+		}
+		return empresta;
+		
+	}
+	
+	public List<Empresta> buscarEmprestimos () {
+		
+		String sql = "Select * from empresta em, livros lv where lv.codlivro = em.codlivro and lv.situacao = 'Indisponivel'";
+		List<Empresta> emprestimosLista = new ArrayList<Empresta>();
+		try {
+			Statement statement = con.createStatement();
+			ResultSet result = statement.executeQuery(sql);
+			
+			
+			while (result.next()) {
+				Empresta empresta = new Empresta();
+			
+				empresta.setCodmatricula(result.getInt(1));
+				empresta.setCodlivro(result.getInt(2));
+				String _dtRetirada[] = result.getString(3).split("-");
+				empresta.setDtretirada(_dtRetirada[2] + "/" + _dtRetirada[1] + "/" + _dtRetirada[0]);
+				String _dtPrevisao[] = result.getString(4).split("-");
+				empresta.setDtprevisao(_dtPrevisao[2] + "/" + _dtPrevisao[1] + "/" + _dtPrevisao[0]);
+				try {
+					String _dtEntrega[] = result.getString(5).split("-");
+					empresta.setDtentrega(_dtEntrega[2] + "/" + _dtEntrega[1] + "/" + _dtEntrega[0]);
+				} catch (Exception e) {
+					empresta.setDtentrega(result.getString(5));
+				}
+				empresta.setCodempresta(result.getInt(6));
+				
+				emprestimosLista.add(empresta);
+				
+			}
+			statement.close();
+			
+			
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			
+		}
+		return emprestimosLista;
+		
+	}
+	
+	public Empresta buscarEmprestaPorCod (Integer codempresta) {
+		
+		String sql = "Select * from empresta where codEmpresta = ?";
+		Empresta empresta = new Empresta();
+		try {
+			PreparedStatement preparador = con.prepareStatement(sql);
+			preparador.setInt(1, codempresta);
+			ResultSet result = preparador.executeQuery();
+			
+			
+			while (result.next()) {
+				
+				empresta.setCodmatricula(result.getInt(1));
+				empresta.setCodlivro(result.getInt(2));
+				String _dtRetirada[] = result.getString(3).split("-");
+				empresta.setDtretirada(_dtRetirada[2] + "/" + _dtRetirada[1] + "/" + _dtRetirada[0]);
+				String _dtPrevisao[] = result.getString(4).split("-");
+				empresta.setDtprevisao(_dtPrevisao[2] + "/" + _dtPrevisao[1] + "/" + _dtPrevisao[0]);
+				try {
+					String _dtEntrega[] = result.getString(5).split("-");
+					empresta.setDtentrega(_dtEntrega[2] + "/" + _dtEntrega[1] + "/" + _dtEntrega[0]);
+				} catch (Exception e) {
+					empresta.setDtentrega(result.getString(5));
+				}
+								
+			}
+			preparador.close();
+			
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			
+		}
+		return empresta;
 		
 	}
 	

@@ -53,7 +53,7 @@
                 <input type="password" name="senha" class="form-control" value="">
             </div>
             <div class="form-group text-right">
-                <a href="index.jsp" class="btn btn-link">Voltar</a>
+                <a href="FuncionarioController.do?method=listar" class="btn btn-link">Voltar</a>
                 <input type="hidden" name="codfunc" value="${funcionario.getCodfunc()}">
                 <input type="submit" class="btn btn-primary" value="Cadastrar">
             </div>

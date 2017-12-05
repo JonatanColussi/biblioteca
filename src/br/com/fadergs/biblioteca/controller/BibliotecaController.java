@@ -1,6 +1,9 @@
 package br.com.fadergs.biblioteca.controller;
 
 import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,8 +32,50 @@ public class BibliotecaController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+String method = request.getParameter("method");
+		
+		if (method.equals("listar")) {
+			BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+			List<Biblioteca> bibliotecasLista = bibliotecaDAO.buscarTodos();
+			
+			request.setAttribute("bibliotecas", bibliotecasLista);
+			
+			RequestDispatcher saida = request.getRequestDispatcher("listaBibliotecas.jsp");
+			saida.forward(request, response);
+		} else if (method.equals("inserir")) {
+			Biblioteca biblioteca = new Biblioteca();
+			
+			biblioteca.setCodbib(0);
+			
+			request.setAttribute("biblioteca", biblioteca);
+			
+			RequestDispatcher saida = request.getRequestDispatcher("cadastroBiblioteca.jsp");
+			saida.forward(request, response);
+		} else if (method.equals("editar")) {
+			try {
+				int codbib = Integer.parseInt(request.getParameter("id"));
+				BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+				Biblioteca biblioteca = bibliotecaDAO.buscarBibliotecaPorCod(codbib);
+				
+				request.setAttribute("biblioteca", biblioteca);
+				
+				RequestDispatcher saida = request.getRequestDispatcher("cadastroBiblioteca.jsp");
+				saida.forward(request, response);
+			} catch(Exception e) {
+				response.sendRedirect("BibliotecaController.do?method=listar");
+			}
+		} else if (method.startsWith("excluir")) {
+			try {
+				int codbib = Integer.parseInt(request.getParameter("id"));
+				BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();
+				Biblioteca biblioteca = bibliotecaDAO.buscarBibliotecaPorCod(codbib);
+				
+				bibliotecaDAO.remover(biblioteca);
+				response.sendRedirect("BibliotecaController.do?method=listar");
+			} catch(Exception e) {
+				response.sendRedirect("BibliotecaController.do?method=listar");
+			}
+		}
 	}
 
 	/**
@@ -52,18 +97,13 @@ public class BibliotecaController extends HttpServlet {
 		BibliotecaDAO bibDAO = new BibliotecaDAO();
 
 
-		boolean resultado = false;
-
 		if(bib.getCodbib() == null){
-			resultado = bibDAO.cadastrar(bib);
-	
+			bibDAO.cadastrar(bib);
 		}else{
-			resultado = bibDAO.editar(bib);
+			bibDAO.editar(bib);
 		}
 
-		String resposta = (resultado) ? "true" : "false";
-
-		response.sendRedirect("listaBibliotecas.jsp?success"+resposta);
+		response.sendRedirect("BibliotecaController.do?method=listar");
 	}
 
 }

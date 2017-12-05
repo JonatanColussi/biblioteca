@@ -18,7 +18,7 @@ public class FuncionarioDAO {
 	
 	public boolean cadastrar (Funcionario funcionario) {
 		
-		String sql = "INSERT INTO funcionario (nome, endereco, telefone, salario, codbib, login, senha) values (?, ?, ?, ?, ?, ?, ?)";
+		String sql = "INSERT INTO funcionario (nome, endereco, telefone, salario, codbib, login, senha) values (?, ?, ?, ?, ?, ?, md5(?))";
 		boolean retorno = false;
 		try {
 			PreparedStatement preparador = con.prepareStatement(sql);
@@ -46,7 +46,7 @@ public class FuncionarioDAO {
 	
 	public boolean editar (Funcionario funcionario) {
 		
-		String sql = "UPDATE funcionario SET nome = ?, endereco = ?, telefone = ?, salario = ?, codbib = ?, login = ?, senha = ? where codfunc = ?";
+		String sql = "UPDATE funcionario SET nome = ?, endereco = ?, telefone = ?, salario = ?, codbib = ?, login = ?, senha = md5(?) where codfunc = ?";
 		boolean retorno = false;
 		try {
 			PreparedStatement preparador = con.prepareStatement(sql);

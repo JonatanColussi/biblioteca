@@ -1,4 +1,4 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="pt-br">
 <head>
 	<meta charset="utf-8">
@@ -26,12 +26,13 @@
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
-						<li class="active"><a href="#">Home</a></li>
-						<li><a href="#">Bibliotecas</a></li>
-						<li><a href="#">Alunos</a></li>
-						<li><a href="#">Livros</a></li>
-						<li><a href="#">Funcionários</a></li>
-						<li><a href="#">Reservas</a></li>
+						<li class="active"><a href="index.jsp">Home</a></li>
+						<li><a href="BibliotecaController.do?method=listar">Bibliotecas</a></li>
+						<li><a href="AlunoController.do?method=listar">Alunos</a></li>
+						<li><a href="LivroController.do?method=listar">Livros</a></li>
+						<li><a href="CategoriaController.do?method=listar">Categorias</a></li>
+						<li><a href="FuncionarioController.do?method=listar">Funcion�rios</a></li>
+						<li><a href="EmprestaController.do?method=listar">Reservas</a></li>
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div><!--/.container-fluid -->

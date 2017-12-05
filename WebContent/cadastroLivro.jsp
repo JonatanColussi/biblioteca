@@ -1,41 +1,69 @@
-﻿<%@include file="includes/header.jsp" %>
+<%@include file="includes/header.jsp" %>
+<%@ page import="java.util.List" %>
+<%@ page import="br.com.fadergs.biblioteca.entidades.Livro" %>
+<%@ page import="br.com.fadergs.biblioteca.entidades.Biblioteca" %>
+<%@ page import="br.com.fadergs.biblioteca.entidades.Categoria" %>
 <main role="main" class="container">
   <div class="row">
     <div class="col-md-4 offset-md-4">
       <div class="card">
         <div class="card-body">
-          <form action="">
+          <form action="LivroController.do" method="POST">
             <div class="form-group">
-              <label for="codbib">Biblioteca</label>
-              <select name="codbib" class="form-control">
-                <option value="1">Blibliteca A</option>
-                <option value="2">Blibliteca B</option>
-                <option value="3">Blibliteca C</option>
-              </select>
+                <label for="codbib">Biblioteca</label>
+                <select name="codbib" class="form-control">
+                    <%
+                        List<Biblioteca> BibliotecasLista = (List<Biblioteca>) request.getAttribute("bibliotecas");
+                        Livro liv = (Livro) request.getAttribute("livro");
+                        for (Biblioteca biblioteca: BibliotecasLista) {
+                            if (liv.getCodbib() == biblioteca.getCodbib()){
+                                %>
+                                <option selected value="<%= biblioteca.getCodbib() %>"><%= biblioteca.getNome() %></option>
+                                <%
+                            } else {
+                                %>
+                                <option value="<%= biblioteca.getCodbib() %>"><%= biblioteca.getNome() %></option>
+                                <%
+                            }
+                        }
+                    %>
+                </select>
             </div>
             <div class="form-group">
               <label for="codcat">Categoria</label>
               <select name="codcat" class="form-control">
-                <option value="1">Categoria A</option>
-                <option value="2">Categoria B</option>
+                     <%
+                        List<Categoria> CategoriasLista = (List<Categoria>) request.getAttribute("categorias");
+                        for (Categoria categoria: CategoriasLista) {
+                            if (liv.getCodcategoria() == categoria.getCodcategoria()){
+                                %>
+                                <option selected value="<%= categoria.getCodcategoria() %>"><%= categoria.getDescricao() %></option>
+                                <%
+                            } else {
+                                %>
+                                <option value="<%= categoria.getCodcategoria() %>"><%= categoria.getDescricao() %></option>
+                                <%
+                            }
+                        }
+                    %>
               </select>
             </div>
             <div class="form-group">
-              <label for="titulo">Título</label>
-              <input type="text" name="titulo" class="form-control">
+              <label for="titulo">T�tulo</label>
+              <input type="text" name="titulo" class="form-control" value="${livro.getTitulo()}">
             </div>
             <div class="form-group">
               <label for="editora">Editora</label>
-              <input type="text" name="editora" class="form-control">
+              <input type="text" name="editora" class="form-control" value="${livro.getEditora()}">
             </div>
             <div class="form-group">
               <label for="valor">Valor</label>
-              <input type="text" name="valor" class="form-control">
+              <input type="text" name="valor" class="form-control" value="${livro.getValor()}">
             </div>
             <div class="form-group text-right">
-              <input type="hidden" name="codliv" value="0">
-              <a href="index.jsp" class="btn btn-link">Voltar</a>
-              <input type="submit" class="btn btn-primary" value="Cadastrar">
+              <a href="LivroController.do?method=listar" class="btn btn-link">Voltar</a>
+                <input type="hidden" name="codliv" value="${livro.getCodlivro()}">
+                <input type="submit" class="btn btn-primary" value="Cadastrar">
             </div>
           </form>
         </div>

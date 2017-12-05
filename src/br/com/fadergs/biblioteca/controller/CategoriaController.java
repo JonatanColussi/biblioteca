@@ -1,6 +1,9 @@
 package br.com.fadergs.biblioteca.controller;
 
 import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,8 +32,50 @@ public class CategoriaController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		String method = request.getParameter("method");
+		
+		if (method.equals("listar")) {
+			CategoriaDAO categoriaDAO = new CategoriaDAO();
+			List<Categoria> categoriasLista = categoriaDAO.buscarTodos();
+			
+			request.setAttribute("categorias", categoriasLista);
+			
+			RequestDispatcher saida = request.getRequestDispatcher("listaCategorias.jsp");
+			saida.forward(request, response);
+		} else if (method.equals("inserir")) {
+			Categoria categoria = new Categoria();
+			
+			categoria.setCodcategoria(0);
+			
+			request.setAttribute("categoria", categoria);
+			
+			RequestDispatcher saida = request.getRequestDispatcher("cadastroCategoria.jsp");
+			saida.forward(request, response);
+		} else if (method.equals("editar")) {
+			try {
+				int codcategoria = Integer.parseInt(request.getParameter("id"));
+				CategoriaDAO categoriaDAO = new CategoriaDAO();
+				Categoria categoria = categoriaDAO.buscarCategoriaPorCod(codcategoria);
+				
+				request.setAttribute("categoria", categoria);
+				
+				RequestDispatcher saida = request.getRequestDispatcher("cadastroCategoria.jsp");
+				saida.forward(request, response);
+			} catch(Exception e) {
+				response.sendRedirect("CategoriaController.do?method=listar");
+			}
+		} else if (method.startsWith("excluir")) {
+			try {
+				int codcategoria = Integer.parseInt(request.getParameter("id"));
+				CategoriaDAO categoriaDAO = new CategoriaDAO();
+				Categoria categoria = categoriaDAO.buscarCategoriaPorCod(codcategoria);
+				
+				categoriaDAO.remover(categoria);
+				response.sendRedirect("CategoriaController.do?method=listar");
+			} catch(Exception e) {
+				response.sendRedirect("CategoriaController.do?method=listar");
+			}
+		}
 	}
 
 	/**
@@ -50,18 +95,13 @@ public class CategoriaController extends HttpServlet {
 		CategoriaDAO catDAO = new CategoriaDAO();
 
 
-		boolean resultado = false;
-
 		if(cat.getCodcategoria() == null){
-			resultado = catDAO.cadastrar(cat);
-	
+			catDAO.cadastrar(cat);
 		}else{
-			resultado = catDAO.editar(cat);
+			catDAO.editar(cat);
 		}
 
-		String resposta = (resultado) ? "true" : "false";
-
-		response.sendRedirect("/listaCategoria.jsp?success="+resposta);
+		response.sendRedirect("CategoriaController.do?method=listar");
 	}
 
 }

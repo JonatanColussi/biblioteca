@@ -1,6 +1,9 @@
 package br.com.fadergs.biblioteca.controller;
 
 import java.io.IOException;
+import java.util.List;
+
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -29,8 +32,50 @@ public class AlunoController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
+		String method = request.getParameter("method");
+		
+		if (method.equals("listar")) {
+			AlunoDAO alunoDAO = new AlunoDAO();
+			List<Aluno> alunosLista = alunoDAO.buscarTodos();
+			
+			request.setAttribute("alunos", alunosLista);
+			
+			RequestDispatcher saida = request.getRequestDispatcher("listaAlunos.jsp");
+			saida.forward(request, response);
+		} else if (method.equals("inserir")) {
+			Aluno aluno = new Aluno();
+			
+			aluno.setCodmatricula(0);
+			
+			request.setAttribute("aluno", aluno);
+			
+			RequestDispatcher saida = request.getRequestDispatcher("cadastroAluno.jsp");
+			saida.forward(request, response);
+		} else if (method.equals("editar")) {
+			try {
+				int codmatricula = Integer.parseInt(request.getParameter("id"));
+				AlunoDAO alunoDAO = new AlunoDAO();
+				Aluno aluno = alunoDAO.buscarAlunoPorMatricula(codmatricula);
+				
+				request.setAttribute("aluno", aluno);
+				
+				RequestDispatcher saida = request.getRequestDispatcher("cadastroAluno.jsp");
+				saida.forward(request, response);
+			} catch(Exception e) {
+				response.sendRedirect("AlunoController.do?method=listar");
+			}
+		} else if (method.startsWith("excluir")) {
+			try {
+				int codmatricula = Integer.parseInt(request.getParameter("id"));
+				AlunoDAO alunoDAO = new AlunoDAO();
+				Aluno aluno = alunoDAO.buscarAlunoPorMatricula(codmatricula);
+				
+				alunoDAO.remover(aluno);
+				response.sendRedirect("AlunoController.do?method=listar");
+			} catch(Exception e) {
+				response.sendRedirect("AlunoController.do?method=listar");
+			}
+		}
 	}
 
 	/**
@@ -43,9 +88,9 @@ public class AlunoController extends HttpServlet {
 		String situacao = request.getParameter("situacao");
 
 		Aluno alu = new Aluno();
-		// if(codmatricula > 0){
+		if(codmatricula > 0){
 			alu.setCodmatricula(codmatricula);
-		// }
+		 }
 
 		alu.setNome(nome);
 		alu.setEndereco(endereco);
@@ -54,18 +99,13 @@ public class AlunoController extends HttpServlet {
 		AlunoDAO aluDAO = new AlunoDAO();
 
 
-		boolean resultado = false;
+		if(alu.getCodmatricula() == null){
+			aluDAO.cadastrar(alu);
+		}else{
+			aluDAO.editar(alu);
+		}
 
-		// if(alu.getCodmatricula() != null){
-			resultado = aluDAO.cadastrar(alu);
-	
-		// }else{
-		// 	resultado = aluDAO.editar(alu);
-		// }
-
-		String resposta = (resultado) ? "true" : "false";
-
-		response.sendRedirect("listaAlunos.jsp?success="+resposta);
+		response.sendRedirect("AlunoController.do?method=listar");
 	}
 
 }
