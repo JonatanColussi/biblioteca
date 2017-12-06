@@ -32,10 +32,12 @@ public class EmprestaDAO {
 			PreparedStatement preparador_livro = con.prepareStatement(sql_livro);
 			
 			
-			String dtretiradaSTR = empresta.getDtretirada();
-			DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			java.sql.Date dtretirada = new java.sql.Date(sdf.parse(dtretiradaSTR).getTime());
-			java.sql.Date dtprevisao = new java.sql.Date(sdf.parse(dtretiradaSTR).getTime() + 10l*24l*60l*60l*1000l);
+			//String dtretiradaSTR = empresta.getDtretirada();
+			//DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+			//java.sql.Date dtretirada = new java.sql.Date(sdf.parse(dtretiradaSTR).getTime());
+			java.sql.Date dtretirada = new java.sql.Date(Calendar.getInstance().getTimeInMillis());
+			//java.sql.Date dtprevisao = new java.sql.Date(sdf.parse(dtretiradaSTR).getTime() + 10l*24l*60l*60l*1000l);
+			java.sql.Date dtprevisao = new java.sql.Date(Calendar.getInstance().getTimeInMillis() + 10l*24l*60l*60l*1000l);
 			
 		
 			preparador.setInt(1, empresta.getCodmatricula());
@@ -104,7 +106,7 @@ public class EmprestaDAO {
 	
 	public void devolverLivro (Empresta empresta) throws ParseException {
 		
-		String sql = "UPDATE empresta SET dtentrega = ? where codmatricula = ? and codlivro = ? and dtretirada = ?";
+		String sql = "UPDATE empresta SET dtentrega = ? where codempresta = ?";
 		String sql_livro = "UPDATE livros SET situacao = ? where codlivro = ?";
 		
 		try {
@@ -112,17 +114,14 @@ public class EmprestaDAO {
 			PreparedStatement preparador_livro = con.prepareStatement(sql_livro);
 			
 			
-			String dtretiradaSTR = empresta.getDtretirada();
-			DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
-			java.sql.Date dtretirada = new java.sql.Date(sdf.parse(dtretiradaSTR).getTime());
+//			String dtretiradaSTR = empresta.getDtretirada();
+//			DateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+//			java.sql.Date dtretirada = new java.sql.Date(sdf.parse(dtretiradaSTR).getTime());
 			java.sql.Date dtentrega = new java.sql.Date(Calendar.getInstance().getTimeInMillis());
 
 			
 			preparador.setDate(1, dtentrega);
-			
-			preparador.setInt(2, empresta.getCodmatricula());
-			preparador.setInt(3, empresta.getCodlivro());
-			preparador.setDate(4, dtretirada);
+			preparador.setInt(2, empresta.getCodempresta());
 			
 			
 			preparador.execute();
@@ -187,6 +186,7 @@ public class EmprestaDAO {
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
+			System.out.println("Prorrogado falhou!");
 			
 		}
 		
@@ -233,7 +233,7 @@ public class EmprestaDAO {
 	
 	public List<Empresta> buscarEmprestimos () {
 		
-		String sql = "Select * from empresta em, livros lv where lv.codlivro = em.codlivro and lv.situacao = 'Indisponivel'";
+		String sql = "Select * from empresta em, livros lv where lv.codlivro = em.codlivro and lv.situacao = 'Indisponivel' and em.dtentrega IS NULL";
 		List<Empresta> emprestimosLista = new ArrayList<Empresta>();
 		try {
 			Statement statement = con.createStatement();
@@ -297,6 +297,7 @@ public class EmprestaDAO {
 				} catch (Exception e) {
 					empresta.setDtentrega(result.getString(5));
 				}
+				empresta.setCodempresta(result.getInt(6));
 								
 			}
 			preparador.close();
