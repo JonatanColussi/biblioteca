@@ -200,4 +200,37 @@ public ArrayList<Funcionario> buscarFuncionarioPorNome (String nome) {
 	
 }
 
+public Funcionario login (Funcionario func) {
+	
+	String sql = "Select * from funcionario where login = ? AND senha = MD5(?)";
+	Funcionario funcionario = new Funcionario();
+	
+	try {
+		PreparedStatement preparador = con.prepareStatement(sql);
+		preparador.setString(1, func.getLogin());
+		preparador.setString(2, func.getSenha());
+		ResultSet result = preparador.executeQuery();
+		
+		
+		while (result.next()) {
+			funcionario.setCodfunc(result.getInt(1));
+			funcionario.setNome(result.getString(2));
+			funcionario.setEndereco(result.getString(3));
+			funcionario.setTelefone(result.getString(4));
+			funcionario.setSalario(result.getDouble(5));
+			funcionario.setCodbib(result.getInt(6));
+			funcionario.setLogin(result.getString(7));
+		}
+		preparador.close();
+		
+		
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+		
+	}
+	return funcionario;
+	
+}
+
 }

@@ -33,8 +33,18 @@
 						<li><a href="CategoriaController.do?method=listar">Categorias</a></li>
 						<li><a href="FuncionarioController.do?method=listar">Funcionários</a></li>
 						<li><a href="EmprestaController.do?method=listar">Reservas</a></li>
+						<li><a href="LogoutController.do">Sair</a></li>
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div><!--/.container-fluid -->
 		</nav>
+		<%
+			//HttpSession sessao = request.getSession(false);  
+	        if(session != null){  
+	        	String username = (String) session.getAttribute("name");
+	        %>
+		<div class="alert alert-info">
+			<span>Olá <%=username%>, seja bem vindo</span>
+		</div>
+		<% }%>
 	</div>
