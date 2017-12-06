@@ -9,7 +9,8 @@
           <form action="AlunoController.do" method="POST">
             <div class="form-group">
               <label for="codmatricula">Matricula</label>
-              <input type="text" name="codmatricula" class="form-control" value="${aluno.getCodmatricula()}">
+              <input type="text" name="codmatricula" class="form-control" value="${aluno.getCodmatricula()}" ${aluno.getCodmatricula() != null ? 'readonly' : ''}>
+            	${aluno.getCodmatricula() != null ? '<p class="help-block">O campo matricula não pode ser alterado</p>' : ''}
             </div>
             <div class="form-group">
               <label for="nome">Nome</label>
@@ -23,12 +24,11 @@
               <label for="situacao">Situação</label>
               <select name="situacao" class="form-control">
                 <option value="Ativo" ${aluno.getSituacao() == 'Ativo' ? 'selected' : ''}>Ativo</option>
-                <option value="Inativo"${aluno.getSituacao() == 'Inativo' ? 'selected' : ''}>Inativo</option>
+                <option value="Inativo" ${aluno.getSituacao() == 'Inativo' ? 'selected' : ''}>Inativo</option>
               </select>
             </div>
             <div class="form-group text-right">
-              <a href="AlunoController.do?method=listar" class="btn btn-link">Voltar</a>
-              <input type="hidden" name="codfunc" value="${funcionario.getCodmatricula()}">
+            	<a href="AlunoController.do?method=listar" class="btn btn-link">Voltar</a>
                 <input type="submit" class="btn btn-primary" value="Cadastrar">
             </div>
           </form>

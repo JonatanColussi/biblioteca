@@ -32,7 +32,7 @@ public class BibliotecaController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-String method = request.getParameter("method");
+		String method = request.getParameter("method");
 		
 		if (method.equals("listar")) {
 			BibliotecaDAO bibliotecaDAO = new BibliotecaDAO();

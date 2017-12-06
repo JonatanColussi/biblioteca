@@ -51,6 +51,8 @@
 										<%if (liv.getSituacao().equals("Indisponivel")) {
 										 %>
 											<span class="text-warning">Reservado até <%= empresta.getDtprevisao() %></span>
+										<%} else { %>
+											n/a
 										<%} %>
 									</td>
 									<td>

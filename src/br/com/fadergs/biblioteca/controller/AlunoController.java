@@ -45,7 +45,7 @@ public class AlunoController extends HttpServlet {
 		} else if (method.equals("inserir")) {
 			Aluno aluno = new Aluno();
 			
-			aluno.setCodmatricula(0);
+			//aluno.setCodmatricula(0);
 			
 			request.setAttribute("aluno", aluno);
 			
@@ -88,18 +88,16 @@ public class AlunoController extends HttpServlet {
 		String situacao = request.getParameter("situacao");
 
 		Aluno alu = new Aluno();
-		if(codmatricula > 0){
-			alu.setCodmatricula(codmatricula);
-		 }
-
+		AlunoDAO aluDAO = new AlunoDAO();
+		
+		alu.setCodmatricula(codmatricula);
 		alu.setNome(nome);
 		alu.setEndereco(endereco);
 		alu.setSituacao(situacao);
 		
-		AlunoDAO aluDAO = new AlunoDAO();
+		Aluno findAlu = aluDAO.buscarAlunoPorMatricula(codmatricula);
 
-
-		if(alu.getCodmatricula() == null){
+		if(findAlu.getCodmatricula() == null){
 			aluDAO.cadastrar(alu);
 		}else{
 			aluDAO.editar(alu);
