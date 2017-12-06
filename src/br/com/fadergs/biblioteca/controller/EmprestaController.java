@@ -11,12 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.com.fadergs.biblioteca.dao.AlunoDAO;
-import br.com.fadergs.biblioteca.dao.BibliotecaDAO;
-import br.com.fadergs.biblioteca.dao.FuncionarioDAO;
 import br.com.fadergs.biblioteca.dao.LivroDAO;
 import br.com.fadergs.biblioteca.entidades.Aluno;
-import br.com.fadergs.biblioteca.entidades.Biblioteca;
-import br.com.fadergs.biblioteca.entidades.Funcionario;
 import br.com.fadergs.biblioteca.entidades.Livro;
 import br.com.fadergs.biblioteca.dao.EmprestaDAO;
 import br.com.fadergs.biblioteca.entidades.Empresta;
@@ -79,6 +75,17 @@ public class EmprestaController extends HttpServlet {
 			} catch(Exception e) {
 				response.sendRedirect("EmprestaController.do?method=listar");
 			}
+		}else if (method.startsWith("devolver")) {
+			try {
+				int codempresta = Integer.parseInt(request.getParameter("id"));
+				EmprestaDAO emprestaDAO = new EmprestaDAO();
+				Empresta empresta = emprestaDAO.buscarEmprestaPorCod(codempresta);
+				
+				emprestaDAO.devolverLivro(empresta);
+				response.sendRedirect("EmprestaController.do?method=listar");
+			} catch(Exception e) {
+				response.sendRedirect("EmprestaController.do?method=listar");
+			}
 		}
 		
 		
@@ -88,8 +95,33 @@ public class EmprestaController extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
+		//int codemp = Integer.parseInt(request.getParameter("codemp"));
+		int codalu = Integer.parseInt(request.getParameter("codalu"));
+		int codliv = Integer.parseInt(request.getParameter("codliv"));
+		
+
+		Empresta emp = new Empresta();
+		/*if(codemp > 0){
+			emp.setCodempresta(codemp);
+		}*/
+
+		emp.setCodlivro(codliv);
+		emp.setCodmatricula(codalu);
+		
+		EmprestaDAO empDAO = new EmprestaDAO();
+
+		try {
+			//if(emp.getCodempresta() == null){
+				empDAO.cadastrar(emp);
+			//}else{
+			//	empDAO.editar(emp);
+			//}
+		} catch (Exception e) {
+			
+		}
+
+		response.sendRedirect("EmprestaController.do?method=listar");
+		
 	}
 
 }

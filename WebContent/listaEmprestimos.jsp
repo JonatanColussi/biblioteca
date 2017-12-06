@@ -40,7 +40,7 @@
 									<td><%= emp.getDtprevisao() %></td>
 									<td>
 										<a href="EmprestaController.do?method=renovar&id=<%= emp.getCodempresta() %>" class="btn btn-warning">Renovar</a>
-										<a href="EmprestaController.do?method=devolver&id=<%= emp.getCodlivro() %>" class="btn btn-danger">Devolver</a>
+										<a href="EmprestaController.do?method=devolver&id=<%= emp.getCodempresta() %>" class="btn btn-danger">Devolver</a>
 									</td>
 								</tr>
 							<%
