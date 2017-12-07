@@ -14,7 +14,7 @@
             <form action="CategoriaController.do" method="POST">
               <div class="form-group">
                 <label for="descricao">Descrição</label>
-                <input type="text" name="descricao" class="form-control" value="${categoria.getDescricao()}">
+                <input type="text" name="descricao" required class="form-control" value="${categoria.getDescricao()}">
               </div>
               <div class="form-group text-right">
                 <a href="CategoriaController.do?method=listar" class="btn btn-link">Voltar</a>

@@ -14,12 +14,12 @@
           <form action="AlunoController.do" method="POST">
             <div class="form-group">
               <label for="codmatricula">Matricula</label>
-              <input type="text" name="codmatricula" class="form-control" value="${aluno.getCodmatricula()}" ${aluno.getCodmatricula() != null ? 'readonly' : ''}>
+              <input type="text" name="codmatricula" required class="form-control" value="${aluno.getCodmatricula()}" ${aluno.getCodmatricula() != null ? 'readonly' : ''}>
             	${aluno.getCodmatricula() != null ? '<p class="help-block">O campo matricula não pode ser alterado</p>' : ''}
             </div>
             <div class="form-group">
               <label for="nome">Nome</label>
-              <input type="text" name="nome" class="form-control" value="${aluno.getNome()}">
+              <input type="text" name="nome" required class="form-control" value="${aluno.getNome()}">
             </div>
             <div class="form-group">
               <label for="endereco">Endereço</label>
@@ -27,7 +27,7 @@
             </div>
             <div class="form-group">
               <label for="situacao">Situação</label>
-              <select name="situacao" class="form-control">
+              <select name="situacao" class="form-control" required>
                 <option value="Ativo" ${aluno.getSituacao() == 'Ativo' ? 'selected' : ''}>Ativo</option>
                 <option value="Inativo" ${aluno.getSituacao() == 'Inativo' ? 'selected' : ''}>Inativo</option>
               </select>

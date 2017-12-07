@@ -16,7 +16,7 @@
           <form action="EmprestaController.do" method="POST">
             <div class="form-group">
                 <label for="codalu">Aluno</label>
-                <select name="codalu" class="form-control">
+                <select name="codalu" class="form-control" required>
                     <%
                         List<Aluno> AlunosLista = (List<Aluno>) request.getAttribute("alunos");
                         int codmatricula = (int) request.getAttribute("codmatricula");
@@ -38,7 +38,7 @@
             </div>
             <div class="form-group">
               <label for="codliv">Livro</label>
-              <select name="codliv" class="form-control">
+              <select name="codliv" class="form-control" required>
                      <%
                         List<Livro> LivrosLista = (List<Livro>) request.getAttribute("livros");
             		    int codlivro = (int) request.getAttribute("codlivro");

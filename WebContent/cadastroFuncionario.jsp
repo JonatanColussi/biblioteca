@@ -15,7 +15,7 @@
             <form action="FuncionarioController.do" method="POST">
               <div class="form-group">
                 <label for="codbib">Biblioteca</label>
-                <select name="codbib" class="form-control">
+                <select name="codbib" class="form-control" required>
                     <%
                         List<Biblioteca> BibliotecasLista = (List<Biblioteca>) request.getAttribute("bibliotecas");
                         Funcionario func = (Funcionario) request.getAttribute("funcionario");
@@ -35,7 +35,7 @@
             </div>
             <div class="form-group">
                 <label for="nome">Nome</label>
-                <input type="text" name="nome" class="form-control" value="${funcionario.getNome()}">
+                <input type="text" name="nome" class="form-control" required value="${funcionario.getNome()}">
             </div>
             <div class="form-group">
                 <label for="endereco">Endereço</label>
@@ -51,11 +51,11 @@
             </div>
             <div class="form-group">
                 <label for="usuario">Usuário</label>
-                <input type="text" name="usuario" class="form-control" value="${funcionario.getLogin()}">
+                <input type="text" name="usuario" required class="form-control" value="${funcionario.getLogin()}">
             </div>
             <div class="form-group">
                 <label for="senha">Senha</label>
-                <input type="password" name="senha" class="form-control" value="">
+                <input type="password" name="senha" class="form-control" value="" required>
             </div>
             <div class="form-group text-right">
                 <a href="FuncionarioController.do?method=listar" class="btn btn-link">Voltar</a>

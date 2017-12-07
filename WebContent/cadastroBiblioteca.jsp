@@ -14,7 +14,7 @@
           <form action="BibliotecaController.do" method="POST">
             <div class="form-group">
               <label for="nome">Nome</label>
-              <input type="text" name="nome" class="form-control" value="${biblioteca.getNome()}">
+              <input type="text" name="nome" required class="form-control" value="${biblioteca.getNome()}">
             </div>
             <div class="form-group">
               <label for="endereco">Endereço</label>

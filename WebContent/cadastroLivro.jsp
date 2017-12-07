@@ -16,7 +16,7 @@
           <form action="LivroController.do" method="POST">
             <div class="form-group">
                 <label for="codbib">Biblioteca</label>
-                <select name="codbib" class="form-control">
+                <select name="codbib" class="form-control" required>
                     <%
                         List<Biblioteca> BibliotecasLista = (List<Biblioteca>) request.getAttribute("bibliotecas");
                         Livro liv = (Livro) request.getAttribute("livro");
@@ -36,7 +36,7 @@
             </div>
             <div class="form-group">
               <label for="codcat">Categoria</label>
-              <select name="codcat" class="form-control">
+              <select name="codcat" class="form-control" required>
                      <%
                         List<Categoria> CategoriasLista = (List<Categoria>) request.getAttribute("categorias");
                         for (Categoria categoria: CategoriasLista) {
@@ -55,7 +55,7 @@
             </div>
             <div class="form-group">
               <label for="titulo">Título</label>
-              <input type="text" name="titulo" class="form-control" value="${livro.getTitulo()}">
+              <input type="text" name="titulo" class="form-control" required value="${livro.getTitulo()}">
             </div>
             <div class="form-group">
               <label for="editora">Editora</label>
