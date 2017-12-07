@@ -105,12 +105,13 @@ ALTER TABLE public.categoria
 
 CREATE TABLE public.empresta
 (
+    codempresta bigint NOT NULL DEFAULT nextval('empresta_codempresta_seq'::regclass),
     codmatricula bigint NOT NULL,
     codlivro bigint NOT NULL,
     dtretirada date NOT NULL,
     dtprevisao date,
     dtentrega date,
-    CONSTRAINT empresta_pkey PRIMARY KEY (codlivro, codmatricula, dtretirada),
+    CONSTRAINT empresta_pkey PRIMARY KEY (codempresta),
     CONSTRAINT empresta_codlivro FOREIGN KEY (codlivro)
         REFERENCES public.livros (codlivro) MATCH SIMPLE
         ON UPDATE NO ACTION
@@ -156,6 +157,8 @@ CREATE TABLE public.funcionario
     endereco character varying(150),
     telefone character varying(20),
     salario double precision,
+    login character varying(150),
+    senha character varying(150),
     codbib bigint NOT NULL,
     CONSTRAINT funcionario_pkey PRIMARY KEY (codfunc),
     CONSTRAINT funcionario_codbib FOREIGN KEY (codbib)
@@ -228,25 +231,10 @@ CREATE SEQUENCE livros_codlivro_seq
     MAXVALUE 9223372036854775807
     START 1
     CACHE 1;
-
-
-
--- SELECT
---     e1.Nome,
---     e2.Nome as nome_amigo, 
---     s.Valor as salario_amigo
--- FROM
---     Estudantes e1
--- LEFT JOIN
---     Amigos a
---     ON a.ID = e1.ID
--- LEFT JOIN
---     Estudante e2
---     ON a.Amigo_ID = e2.id
--- LEFT JOIN
---     Salarios s
---     ON s.ID = e2.id
--- ORDER BY
---     s.Valor DESC
-
---     
+    
+CREATE SEQUENCE empresta_codempresta_seq
+    INCREMENT 1
+    MINVALUE 1
+    MAXVALUE 9223372036854775807
+    START 1
+    CACHE 1;
