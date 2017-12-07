@@ -233,13 +233,41 @@ public class EmprestaDAO {
 		
 	}
 	
-	public List<Empresta> buscarEmprestimos () {
+	public List<Empresta> buscarEmprestimos (String dataini, String datafim) {
+		
+		String condition = "";
+		int typeFiltro = 0;
+		
+		if (!dataini.equals("") && !datafim.equals("")) {
+			condition = " WHERE dtretirada BETWEEN ?::date AND ?::date";
+			typeFiltro = 1;
+		} else if (!dataini.equals("") && datafim.equals("")) {
+			condition = " WHERE dtretirada >= ?::date";
+			typeFiltro = 2;
+		} else if (dataini.equals("") && !datafim.equals("")) {
+			condition = " WHERE dtretirada <= ?::date";
+			typeFiltro = 3;
+		}
 		
 		String sql = "Select * from empresta";
 		List<Empresta> emprestimosLista = new ArrayList<Empresta>();
 		try {
 			Statement statement = con.createStatement();
-			ResultSet result = statement.executeQuery(sql);
+			ResultSet result;
+			if(typeFiltro == 0) {
+				result = statement.executeQuery(sql);
+			} else {
+				PreparedStatement preparador = con.prepareStatement(sql+condition);
+				if(typeFiltro == 1) {
+					preparador.setString(1, dataini);
+					preparador.setString(2, datafim);
+				} else if(typeFiltro == 2) {
+					preparador.setString(1, dataini);
+				}else if(typeFiltro == 3) {
+					preparador.setString(1, datafim);
+				}
+				result = preparador.executeQuery();
+			}
 			
 			
 			while (result.next()) {

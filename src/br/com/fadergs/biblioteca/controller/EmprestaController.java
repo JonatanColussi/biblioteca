@@ -48,7 +48,18 @@ public class EmprestaController extends HttpServlet {
 		
 		if (method.equals("listar")) {
 			EmprestaDAO emprestaDAO = new EmprestaDAO();
-			List<Empresta> emprestimosLista = emprestaDAO.buscarEmprestimos();
+			
+			String dataini = "";
+			String datafim = "";
+
+			if (request.getParameter("dataini") != null) {
+			    dataini = request.getParameter("dataini");
+			}
+			if (request.getParameter("datafim") != null) {
+			    datafim = request.getParameter("datafim");
+			}
+			
+			List<Empresta> emprestimosLista = emprestaDAO.buscarEmprestimos(dataini, datafim);
 			
 			int emprestimosComAlunosAtivos = emprestaDAO.countEmprestimos(1);
 			int emprestimosComAlunosInativos = emprestaDAO.countEmprestimos(0);
@@ -56,6 +67,8 @@ public class EmprestaController extends HttpServlet {
 			request.setAttribute("emprestimos", emprestimosLista);
 			request.setAttribute("qtdAtivos", emprestimosComAlunosAtivos);
 			request.setAttribute("qtdInativos", emprestimosComAlunosInativos);
+			request.setAttribute("dataini", dataini);
+			request.setAttribute("datafim", datafim);
 			
 			RequestDispatcher saida = request.getRequestDispatcher("listaEmprestimos.jsp");
 			saida.forward(request, response);

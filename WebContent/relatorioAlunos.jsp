@@ -31,6 +31,7 @@
 				<tbody>
 					<%
 						for (Empresta emp: emprestimosLista) {
+							Livro livro = livroDAO.buscarLivroPorCod(emp.getCodlivro());
 							%>
 								<tr>
 									<td><%= livro.getTitulo() %></td>

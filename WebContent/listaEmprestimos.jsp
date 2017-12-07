@@ -23,6 +23,22 @@
 		</div>
 	</div>
 	<div class="row">
+	    <form action="EmprestaController.do" method="GET">
+	        <div class="form-group col-md-6">
+	            <label for="dataini">Data Reserva (Inicial)</label>
+	            <input type="date" name="dataini" class="form-control" value="${dataini}">
+	        </div>
+	        <div class="form-group col-md-6">
+	            <label for="datafim">Data Reserva (Final)</label>
+	            <input type="date" name="datafim" class="form-control" value="${datafim}">
+	        </div>
+	        <div class="form-group col-md-12 text-right">
+	            <input type="hidden" name="method" value="listar">
+	            <input type="submit" class="btn btn-primary" value="Filtrar">
+	        </div>
+	    </form>
+	</div>
+	<div class="row">
 		<div class="col-md-12">
 			<table class="table table-striped table-bordered table-hover">
 				<thead>
