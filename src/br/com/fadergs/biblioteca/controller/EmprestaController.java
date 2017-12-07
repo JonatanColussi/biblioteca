@@ -50,7 +50,12 @@ public class EmprestaController extends HttpServlet {
 			EmprestaDAO emprestaDAO = new EmprestaDAO();
 			List<Empresta> emprestimosLista = emprestaDAO.buscarEmprestimos();
 			
+			int emprestimosComAlunosAtivos = emprestaDAO.countEmprestimos(1);
+			int emprestimosComAlunosInativos = emprestaDAO.countEmprestimos(0);
+			
 			request.setAttribute("emprestimos", emprestimosLista);
+			request.setAttribute("qtdAtivos", emprestimosComAlunosAtivos);
+			request.setAttribute("qtdInativos", emprestimosComAlunosInativos);
 			
 			RequestDispatcher saida = request.getRequestDispatcher("listaEmprestimos.jsp");
 			saida.forward(request, response);

@@ -3,6 +3,11 @@
 <%@ page import="br.com.fadergs.biblioteca.entidades.Funcionario" %>
 <%@ page import="br.com.fadergs.biblioteca.entidades.Biblioteca" %>
 <main role="main" class="container">
+<div class="row">
+	<div class="col-md-12">
+		<h1>Funcionários</h1>
+	</div>
+</div>
     <div class="row">
       <div class="col-md-4 offset-md-4">
         <div class="card">

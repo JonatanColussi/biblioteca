@@ -314,6 +314,45 @@ public class EmprestaDAO {
 		
 	}
 	
+public List<Empresta> buscarEmprestaPorAluno (Integer codmatricula) {
+		List<Empresta> emprestimosLista = new ArrayList<Empresta>();
+		String sql = "Select * from empresta where codmatricula = ?";
+		
+		try {
+			PreparedStatement preparador = con.prepareStatement(sql);
+			preparador.setInt(1, codmatricula);
+			ResultSet result = preparador.executeQuery();
+			
+			
+			while (result.next()) {
+				Empresta empresta = new Empresta();
+				empresta.setCodmatricula(result.getInt(1));
+				empresta.setCodlivro(result.getInt(2));
+				String _dtRetirada[] = result.getString(3).split("-");
+				empresta.setDtretirada(_dtRetirada[2] + "/" + _dtRetirada[1] + "/" + _dtRetirada[0]);
+				String _dtPrevisao[] = result.getString(4).split("-");
+				empresta.setDtprevisao(_dtPrevisao[2] + "/" + _dtPrevisao[1] + "/" + _dtPrevisao[0]);
+				try {
+					String _dtEntrega[] = result.getString(5).split("-");
+					empresta.setDtentrega(_dtEntrega[2] + "/" + _dtEntrega[1] + "/" + _dtEntrega[0]);
+				} catch (Exception e) {
+					empresta.setDtentrega(result.getString(5));
+				}
+				empresta.setCodempresta(result.getInt(6));
+				emprestimosLista.add(empresta);				
+			}
+			preparador.close();
+			
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			
+		}
+		return emprestimosLista;
+		
+	}
+	
 	
 	public void vefificarAluno(int codmatricula) {
 		String sql = "SELECT COUNT(*) AS totalemprestimos FROM empresta WHERE dtentrega IS NULL AND codmatricula = ?";
@@ -345,5 +384,29 @@ public class EmprestaDAO {
 		}
 	}
 	
-
+	public int countEmprestimos (int alunoAtivo) {
+		String sql = "SELECT COUNT(e.*) AS total FROM empresta e INNER JOIN alunos a ON a.codmatricula = e.codmatricula WHERE dtentrega IS NULL AND a.situacao = ?;";
+		int resultado = 0;
+		
+		try {
+			Statement statement = con.createStatement();
+			PreparedStatement preparador = con.prepareStatement(sql);
+			preparador.setString(1, (alunoAtivo == 1) ? "Ativo" : "Inativo");
+			ResultSet result = preparador.executeQuery();
+			
+			while (result.next()) {
+				resultado = result.getInt(1);
+			}
+			statement.close();
+			
+			
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			
+		}
+		return resultado;
+		
+	}
 }

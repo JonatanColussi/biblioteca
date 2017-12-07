@@ -38,6 +38,7 @@
 									</td>
 									<td>
 										<a href="AlunoController.do?method=editar&id=<%= alu.getCodmatricula() %>" class="btn btn-warning">Editar</a>
+										<a href="AlunoController.do?method=relatorio&id=<%= alu.getCodmatricula() %>" class="btn btn-primary">Relatório</a>
 										<%if (alu.getSituacao().equals("Ativo")) { %>
 											<a href="EmprestaController.do?method=inserir&aluno=<%= alu.getCodmatricula() %>" class="btn btn-success">Reservar livro</a>
 										<% } %>

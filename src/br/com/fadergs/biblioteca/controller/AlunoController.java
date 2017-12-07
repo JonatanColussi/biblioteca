@@ -12,7 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import br.com.fadergs.biblioteca.dao.AlunoDAO;
+import br.com.fadergs.biblioteca.dao.EmprestaDAO;
 import br.com.fadergs.biblioteca.entidades.Aluno;
+import br.com.fadergs.biblioteca.entidades.Empresta;
 
 /**
  * Servlet implementation class AlunoController
@@ -68,6 +70,20 @@ public class AlunoController extends HttpServlet {
 				request.setAttribute("aluno", aluno);
 				
 				RequestDispatcher saida = request.getRequestDispatcher("cadastroAluno.jsp");
+				saida.forward(request, response);
+			} catch(Exception e) {
+				response.sendRedirect("AlunoController.do?method=listar");
+			}
+		} else if (method.equals("relatorio")) {
+			try {
+				int codmatricula = Integer.parseInt(request.getParameter("id"));
+				EmprestaDAO emprestaDAO = new EmprestaDAO();
+				
+				List<Empresta> emprestimos = emprestaDAO.buscarEmprestaPorAluno(codmatricula);
+				
+				request.setAttribute("emprestimos", emprestimos);
+				
+				RequestDispatcher saida = request.getRequestDispatcher("relatorioAlunos.jsp");
 				saida.forward(request, response);
 			} catch(Exception e) {
 				response.sendRedirect("AlunoController.do?method=listar");
