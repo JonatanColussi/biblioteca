@@ -57,6 +57,7 @@
 									</td>
 									<td>
 										<a href="LivroController.do?method=editar&id=<%= liv.getCodlivro() %>" class="btn btn-warning">Editar</a>
+										<a href="LivroController.do?method=relatorio&id=<%= liv.getCodlivro() %>" class="btn btn-primary">Relatório</a>
 										<%if (liv.getSituacao().equals("Disponivel")) { %>
 											<a href="EmprestaController.do?method=inserir&livro=<%= liv.getCodlivro() %>" class="btn btn-success">Reservar livro</a>
 										<% } %>

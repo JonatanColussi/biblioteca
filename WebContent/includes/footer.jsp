@@ -5,7 +5,7 @@
 	<script type="text/javascript" src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
 	<script>
 		$(document).ready(function(){
-			$("table").DataTable({
+			$("table").not(".not-datatables").DataTable({
 				language:{
 					url: '//cdn.datatables.net/plug-ins/1.10.16/i18n/Portuguese-Brasil.json'
 				}

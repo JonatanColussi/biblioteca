@@ -352,6 +352,45 @@ public List<Empresta> buscarEmprestaPorAluno (Integer codmatricula) {
 		return emprestimosLista;
 		
 	}
+
+public List<Empresta> buscarEmprestaPorLivro (Integer codlivro) {
+	List<Empresta> emprestimosLista = new ArrayList<Empresta>();
+	String sql = "Select * from empresta where codlivro = ? ORDER BY dtretirada ASC";
+	
+	try {
+		PreparedStatement preparador = con.prepareStatement(sql);
+		preparador.setInt(1, codlivro);
+		ResultSet result = preparador.executeQuery();
+		
+		
+		while (result.next()) {
+			Empresta empresta = new Empresta();
+			empresta.setCodmatricula(result.getInt(1));
+			empresta.setCodlivro(result.getInt(2));
+			String _dtRetirada[] = result.getString(3).split("-");
+			empresta.setDtretirada(_dtRetirada[2] + "/" + _dtRetirada[1] + "/" + _dtRetirada[0]);
+			String _dtPrevisao[] = result.getString(4).split("-");
+			empresta.setDtprevisao(_dtPrevisao[2] + "/" + _dtPrevisao[1] + "/" + _dtPrevisao[0]);
+			try {
+				String _dtEntrega[] = result.getString(5).split("-");
+				empresta.setDtentrega(_dtEntrega[2] + "/" + _dtEntrega[1] + "/" + _dtEntrega[0]);
+			} catch (Exception e) {
+				empresta.setDtentrega(result.getString(5));
+			}
+			empresta.setCodempresta(result.getInt(6));
+			emprestimosLista.add(empresta);				
+		}
+		preparador.close();
+		
+		
+	} catch (SQLException e) {
+		
+		e.printStackTrace();
+		
+	}
+	return emprestimosLista;
+	
+}
 	
 	
 	public void vefificarAluno(int codmatricula) {

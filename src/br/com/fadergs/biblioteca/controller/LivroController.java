@@ -16,7 +16,9 @@ import br.com.fadergs.biblioteca.dao.LivroDAO;
 import br.com.fadergs.biblioteca.entidades.Biblioteca;
 import br.com.fadergs.biblioteca.entidades.Livro;
 import br.com.fadergs.biblioteca.dao.CategoriaDAO;
+import br.com.fadergs.biblioteca.dao.EmprestaDAO;
 import br.com.fadergs.biblioteca.entidades.Categoria;
+import br.com.fadergs.biblioteca.entidades.Empresta;
 
 /**
  * Servlet implementation class LivroController
@@ -87,6 +89,20 @@ public class LivroController extends HttpServlet {
 				request.setAttribute("categorias", categorias);
 				
 				RequestDispatcher saida = request.getRequestDispatcher("cadastroLivro.jsp");
+				saida.forward(request, response);
+			} catch(Exception e) {
+				response.sendRedirect("LivroController.do?method=listar");
+			}
+		 }else if (method.equals("relatorio")) {
+			try {
+				int codlivro = Integer.parseInt(request.getParameter("id"));
+				EmprestaDAO emprestaDAO = new EmprestaDAO();
+				
+				List<Empresta> emprestimos = emprestaDAO.buscarEmprestaPorLivro(codlivro);
+				
+				request.setAttribute("emprestimos", emprestimos);
+				
+				RequestDispatcher saida = request.getRequestDispatcher("relatorioLivros.jsp");
 				saida.forward(request, response);
 			} catch(Exception e) {
 				response.sendRedirect("LivroController.do?method=listar");

@@ -8,7 +8,13 @@
 <main role="main" class="container">
 <div class="row">
 		<div class="col-md-12">
-			<h1>Relatório de empréstimos por aluno</h1>
+		<%
+			List<Empresta> emprestimosLista = (List<Empresta>) request.getAttribute("emprestimos");
+			AlunoDAO alunoDAO = new AlunoDAO();
+			LivroDAO livroDAO = new LivroDAO();
+			Aluno aluno = alunoDAO.buscarAlunoPorMatricula(emprestimosLista.get(0).getCodmatricula());
+		%>
+			<h1>Relatório de empréstimos por aluno: <%= aluno.getNome() %></h1>
 		</div>
 	</div>
 	<div class="row">
@@ -24,12 +30,7 @@
 				</thead>
 				<tbody>
 					<%
-						List<Empresta> emprestimosLista = (List<Empresta>) request.getAttribute("emprestimos");
-						AlunoDAO alunoDAO = new AlunoDAO();
-						LivroDAO livroDAO = new LivroDAO();
 						for (Empresta emp: emprestimosLista) {
-							Aluno aluno = alunoDAO.buscarAlunoPorMatricula(emp.getCodmatricula());
-							Livro livro = livroDAO.buscarLivroPorCod(emp.getCodlivro());
 							%>
 								<tr>
 									<td><%= livro.getTitulo() %></td>
