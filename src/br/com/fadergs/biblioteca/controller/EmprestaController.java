@@ -55,20 +55,27 @@ public class EmprestaController extends HttpServlet {
 			RequestDispatcher saida = request.getRequestDispatcher("listaEmprestimos.jsp");
 			saida.forward(request, response);
 		} else if (method.equals("inserir")) {
-			Empresta empresta = new Empresta();
 			AlunoDAO alunoDAO = new AlunoDAO();
 			LivroDAO livroDAO = new LivroDAO();
 			
 			List<Aluno> alunos = alunoDAO.buscarTodos();
 			List<Livro> livros = livroDAO.buscarDisponiveis();
 			
-			empresta.setCodlivro(0);
-			empresta.setCodmatricula(0);
+			int aluno = 0;
+			int livro = 0;
 			
-			request.setAttribute("empresta", empresta);
+			if (request.getParameter("livro") != null) {
+				livro = Integer.parseInt(request.getParameter("livro"));
+			}
+			
+			if (request.getParameter("aluno") != null) {
+				aluno = Integer.parseInt(request.getParameter("aluno"));
+			}
+			
 			request.setAttribute("livros", livros);
 			request.setAttribute("alunos", alunos);
-			
+			request.setAttribute("codlivro", livro);
+			request.setAttribute("codmatricula", aluno);
 			
 			RequestDispatcher saida = request.getRequestDispatcher("cadastroEmprestimo.jsp");
 			saida.forward(request, response);

@@ -14,10 +14,10 @@
                 <select name="codalu" class="form-control">
                     <%
                         List<Aluno> AlunosLista = (List<Aluno>) request.getAttribute("alunos");
-                        Empresta emp = (Empresta) request.getAttribute("empresta");
+                        int codmatricula = (int) request.getAttribute("codmatricula");
                         for (Aluno aluno: AlunosLista) {
                         	if(aluno.getSituacao().equals("Ativo")){
-	                            if (emp.getCodmatricula() == aluno.getCodmatricula()){
+	                            if (aluno.getCodmatricula() == codmatricula){
 	                                %>
 	                                <option selected value="<%= aluno.getCodmatricula() %>"><%= aluno.getNome() %></option>
 	                                <%
@@ -36,9 +36,10 @@
               <select name="codliv" class="form-control">
                      <%
                         List<Livro> LivrosLista = (List<Livro>) request.getAttribute("livros");
+            		    int codlivro = (int) request.getAttribute("codlivro");
                         for (Livro livro: LivrosLista) {
                         	if(livro.getSituacao().equals("Disponivel")){
-	                            if (emp.getCodlivro() == livro.getCodlivro()){
+	                            if (livro.getCodlivro() == codlivro){
 	                                %>
 	                                <option selected value="<%= livro.getCodlivro() %>"><%= livro.getTitulo() %></option>
 	                                <%
