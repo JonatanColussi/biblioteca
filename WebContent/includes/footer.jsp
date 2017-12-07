@@ -10,6 +10,12 @@
 					url: '//cdn.datatables.net/plug-ins/1.10.16/i18n/Portuguese-Brasil.json'
 				}
 			});
+			
+			$(".nav li[data-controller]").each(function(index, el){
+				if (location.pathname.search($(this).data('controller')) >= 0) {
+					$(this).addClass('active');
+				}
+			});
 		});
 	</script>
 </body>

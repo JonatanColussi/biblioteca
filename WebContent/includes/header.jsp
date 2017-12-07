@@ -28,12 +28,12 @@
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
 						<% if(session.getAttribute("name") != null){ %>
-							<li><a href="BibliotecaController.do?method=listar">Bibliotecas</a></li>
-							<li><a href="AlunoController.do?method=listar">Alunos</a></li>
-							<li><a href="LivroController.do?method=listar">Livros</a></li>
-							<li><a href="CategoriaController.do?method=listar">Categorias</a></li>
-							<li><a href="FuncionarioController.do?method=listar">Funcionários</a></li>
-							<li><a href="EmprestaController.do?method=listar">Reservas</a></li>
+							<li data-controller="BibliotecaController"><a href="BibliotecaController.do?method=listar">Bibliotecas</a></li>
+							<li data-controller="AlunoController"><a href="AlunoController.do?method=listar">Alunos</a></li>
+							<li data-controller="LivroController"><a href="LivroController.do?method=listar">Livros</a></li>
+							<li data-controller="CategoriaController"><a href="CategoriaController.do?method=listar">Categorias</a></li>
+							<li data-controller="FuncionarioController"><a href="FuncionarioController.do?method=listar">Funcionários</a></li>
+							<li data-controller="EmprestaController"><a href="EmprestaController.do?method=listar">Reservas</a></li>
 							<li><a href="LogoutController.do">Sair</a></li>
 						<% } %>
 					</ul>
