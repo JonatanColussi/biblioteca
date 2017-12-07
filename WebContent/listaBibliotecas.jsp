@@ -31,7 +31,6 @@
 
 									<td>
 										<a href="BibliotecaController.do?method=editar&id=<%= bib.getCodbib() %>" class="btn btn-warning">Editar</a>
-										<a href="BibliotecaController.do?method=excluir&id=<%= bib.getCodbib() %>" class="btn btn-danger">Deletar</a>
 									</td>
 								</tr>
 							<%

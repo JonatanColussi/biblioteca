@@ -21,6 +21,7 @@
 						<th>Livro</th>
 						<th>Data Reserva</th>
 						<th>Data Prevista</th>
+						<th>Data Entrega</th>
 						<th>Ações</th>
 					</tr>
 				</thead>
@@ -38,14 +39,15 @@
 									<td><%= livro.getTitulo() %></td>
 									<td><%= emp.getDtretirada() %></td>
 									<td><%= emp.getDtprevisao() %></td>
+									<td><%= (emp.getDtentrega() != null) ? emp.getDtentrega() : "n/a" %></td>
 									<td>
-										<a href="EmprestaController.do?method=renovar&id=<%= emp.getCodempresta() %>" class="btn btn-warning">Renovar</a>
-										<a href="EmprestaController.do?method=devolver&id=<%= emp.getCodempresta() %>" class="btn btn-danger">Devolver</a>
+										<% if(emp.getDtentrega() == null){ %>
+											<a href="EmprestaController.do?method=renovar&id=<%= emp.getCodempresta() %>" class="btn btn-warning">Renovar</a>
+											<a href="EmprestaController.do?method=devolver&id=<%= emp.getCodempresta() %>" class="btn btn-danger">Devolver</a>
+										<% } %>
 									</td>
 								</tr>
-							<%
-						}
-					%>
+							<% } %>
 				</tbody>
 			</table>
 		</div>

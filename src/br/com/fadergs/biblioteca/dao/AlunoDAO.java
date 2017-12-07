@@ -93,7 +93,7 @@ private Connection con = Conexao.getConnection();
 	
 	
 	public List<Aluno> buscarTodos () {
-		
+		this.vefificarAlunos();
 		String sql = "Select * from alunos";
 		List<Aluno> alunosLista = new ArrayList<Aluno>();
 		try {
@@ -190,6 +190,35 @@ private Connection con = Conexao.getConnection();
 		}
 		return alunosLista;
 		
+	}
+	
+	public void vefificarAlunos() {
+		String sql = "SELECT COUNT(*) AS atrasados, codmatricula FROM empresta WHERE dtprevisao < current_date AND dtentrega IS NULL GROUP BY codmatricula";
+		try {
+			PreparedStatement preparador = con.prepareStatement(sql);
+			ResultSet result = preparador.executeQuery();
+		
+			while (result.next()) {
+				if (result.getInt(1) > 0) {
+					String sqlAluno = "UPDATE alunos SET situacao = 'Inativo' WHERE codmatricula = ?";
+					try {
+						PreparedStatement preparador2 = con.prepareStatement(sqlAluno);
+						preparador2.setInt(1, result.getInt(2));
+						preparador2.executeQuery();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+								
+			}
+			preparador.close();
+			
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			
+		}
 	}
 
 }

@@ -9,6 +9,7 @@
 	<title>Biblioteca Fadergs</title>
 	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
 	<link href="assets/css/style.css" rel="stylesheet">
+	<link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -26,25 +27,25 @@
 				</div>
 				<div id="navbar" class="navbar-collapse collapse">
 					<ul class="nav navbar-nav navbar-right">
-						<li class="active"><a href="index.jsp">Home</a></li>
-						<li><a href="BibliotecaController.do?method=listar">Bibliotecas</a></li>
-						<li><a href="AlunoController.do?method=listar">Alunos</a></li>
-						<li><a href="LivroController.do?method=listar">Livros</a></li>
-						<li><a href="CategoriaController.do?method=listar">Categorias</a></li>
-						<li><a href="FuncionarioController.do?method=listar">Funcionários</a></li>
-						<li><a href="EmprestaController.do?method=listar">Reservas</a></li>
-						<li><a href="LogoutController.do">Sair</a></li>
+						<% if(session.getAttribute("name") != null){ %>
+							<li><a href="BibliotecaController.do?method=listar">Bibliotecas</a></li>
+							<li><a href="AlunoController.do?method=listar">Alunos</a></li>
+							<li><a href="LivroController.do?method=listar">Livros</a></li>
+							<li><a href="CategoriaController.do?method=listar">Categorias</a></li>
+							<li><a href="FuncionarioController.do?method=listar">Funcionários</a></li>
+							<li><a href="EmprestaController.do?method=listar">Reservas</a></li>
+							<li><a href="LogoutController.do">Sair</a></li>
+						<% } %>
 					</ul>
 				</div><!--/.nav-collapse -->
 			</div><!--/.container-fluid -->
 		</nav>
-		<%
-			//HttpSession sessao = request.getSession(false);  
-	        if(session != null){  
+		<% 
+	        if(session.getAttribute("name") != null){  
 	        	String username = (String) session.getAttribute("name");
 	        %>
 		<div class="alert alert-info">
-			<span>Olá <%=username%>, seja bem vindo</span>
+			<span>Olá <%=username%>, seja bem vindo!</span>
 		</div>
 		<% }%>
 	</div>

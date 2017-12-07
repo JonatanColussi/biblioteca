@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.fadergs.biblioteca.dao.CategoriaDAO;
 import br.com.fadergs.biblioteca.entidades.Categoria;
@@ -32,6 +33,13 @@ public class CategoriaController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//Valida login
+		HttpSession session = request.getSession(false);  
+		if(session.getAttribute("name") == null){ 
+			RequestDispatcher saida = request.getRequestDispatcher("index.jsp");
+			saida.forward(request, response);
+		}
+		
 		String method = request.getParameter("method");
 		
 		if (method.equals("listar")) {

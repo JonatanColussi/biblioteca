@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.fadergs.biblioteca.dao.BibliotecaDAO;
 import br.com.fadergs.biblioteca.dao.FuncionarioDAO;
@@ -35,6 +36,13 @@ public class FuncionarioController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String method = request.getParameter("method");
+		
+		//Valida login
+		HttpSession session = request.getSession(false);  
+		if(session.getAttribute("name") == null && !method.equals("inserir")){ 
+			RequestDispatcher saida = request.getRequestDispatcher("index.jsp");
+			saida.forward(request, response);
+		}
 		
 		if (method.equals("listar")) {
 			FuncionarioDAO funcionarioDAO = new FuncionarioDAO();

@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.fadergs.biblioteca.dao.BibliotecaDAO;
 import br.com.fadergs.biblioteca.dao.LivroDAO;
@@ -36,6 +37,13 @@ public class LivroController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//Valida login
+		HttpSession session = request.getSession(false);  
+		if(session.getAttribute("name") == null){ 
+			RequestDispatcher saida = request.getRequestDispatcher("index.jsp");
+			saida.forward(request, response);
+		}
+		
 		String method = request.getParameter("method");
 		
 		if (method.equals("listar")) {
@@ -80,17 +88,6 @@ public class LivroController extends HttpServlet {
 				
 				RequestDispatcher saida = request.getRequestDispatcher("cadastroLivro.jsp");
 				saida.forward(request, response);
-			} catch(Exception e) {
-				response.sendRedirect("LivroController.do?method=listar");
-			}
-		} else if (method.startsWith("excluir")) {
-			try {
-				int codlivro = Integer.parseInt(request.getParameter("id"));
-				LivroDAO livroDAO = new LivroDAO();
-				Livro livro = livroDAO.buscarLivroPorCod(codlivro);
-				
-				livroDAO.remover(livro);
-				response.sendRedirect("LivroController.do?method=listar");
 			} catch(Exception e) {
 				response.sendRedirect("LivroController.do?method=listar");
 			}

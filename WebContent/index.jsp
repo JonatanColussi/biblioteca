@@ -1,7 +1,7 @@
 <%@include file="includes/header.jsp" %>
 <main role="main" class="container">
   <div class="row">
-    <div class="col-md-4 offset-md-4" style="border: 1px solid #ccc; border-radius: 5px; margin-top: 100px;">
+    <div class="col-md-4 col-md-offset-4" style="border: 1px solid #ccc; border-radius: 5px; margin-top: 100px;">
       <form action="LoginController.do" method="POST">
         <div class="form-group">
           <label for="usuario">Usuário</label>
@@ -12,7 +12,7 @@
           <input type="password" name="senha" class="form-control">
         </div>
         <div class="form-group text-right">
-          <a href="cadastroFuncionario.jsp" class="btn btn-link">Criar conta</a>
+          <a href="FuncionarioController.do?method=inserir" class="btn btn-link">Criar conta</a>
           <input type="submit" class="btn btn-primary" value="Entrar">
         </div>
       </form>

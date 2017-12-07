@@ -56,14 +56,10 @@
 										<%} %>
 									</td>
 									<td>
-										<%if (liv.getSituacao().equals("Indisponivel")) {
-										 %>
-										<a href="EmprestaController.do?method=inserir&codlivro=<%= liv.getCodlivro() %>" class="btn btn-primary disabled">Reservar</a>
-										<%} else {%>
-										<a href="EmprestaController.do?method=inserir&codlivro=<%= liv.getCodlivro() %>" class="btn btn-primary">Reservar</a>
-										<%} %>
 										<a href="LivroController.do?method=editar&id=<%= liv.getCodlivro() %>" class="btn btn-warning">Editar</a>
-										<a href="LivroController.do?method=excluir&id=<%= liv.getCodlivro() %>" class="btn btn-danger">Deletar</a>
+										<%if (liv.getSituacao().equals("Disponivel")) { %>
+											<a href="EmprestaController.do?method=inserir&livro=<%= liv.getCodlivro() %>" class="btn btn-success">Reservar livro</a>
+										<% } %>
 									</td>
 								</tr>
 							<%

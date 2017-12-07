@@ -16,15 +16,17 @@
                         List<Aluno> AlunosLista = (List<Aluno>) request.getAttribute("alunos");
                         Empresta emp = (Empresta) request.getAttribute("empresta");
                         for (Aluno aluno: AlunosLista) {
-                            if (emp.getCodmatricula() == aluno.getCodmatricula()){
-                                %>
-                                <option selected value="<%= aluno.getCodmatricula() %>"><%= aluno.getNome() %></option>
-                                <%
-                            } else {
-                                %>
-                                <option value="<%= aluno.getCodmatricula() %>"><%= aluno.getNome() %></option>
-                                <%
-                            }
+                        	if(aluno.getSituacao().equals("Ativo")){
+	                            if (emp.getCodmatricula() == aluno.getCodmatricula()){
+	                                %>
+	                                <option selected value="<%= aluno.getCodmatricula() %>"><%= aluno.getNome() %></option>
+	                                <%
+	                            } else {
+	                                %>
+	                                <option value="<%= aluno.getCodmatricula() %>"><%= aluno.getNome() %></option>
+	                                <%
+	                            }
+                        	}
                         }
                     %>
                 </select>
@@ -35,15 +37,17 @@
                      <%
                         List<Livro> LivrosLista = (List<Livro>) request.getAttribute("livros");
                         for (Livro livro: LivrosLista) {
-                            if (emp.getCodlivro() == livro.getCodlivro()){
-                                %>
-                                <option selected value="<%= livro.getCodlivro() %>"><%= livro.getTitulo() %></option>
-                                <%
-                            } else {
-                                %>
-                                <option value="<%= livro.getCodlivro() %>"><%= livro.getTitulo() %></option>
-                                <%
-                            }
+                        	if(livro.getSituacao().equals("Disponivel")){
+	                            if (emp.getCodlivro() == livro.getCodlivro()){
+	                                %>
+	                                <option selected value="<%= livro.getCodlivro() %>"><%= livro.getTitulo() %></option>
+	                                <%
+	                            } else {
+	                                %>
+	                                <option value="<%= livro.getCodlivro() %>"><%= livro.getTitulo() %></option>
+	                                <%
+	                            }
+                        	}
                         }
                     %>
               </select>

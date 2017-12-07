@@ -9,6 +9,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.fadergs.biblioteca.dao.AlunoDAO;
 import br.com.fadergs.biblioteca.entidades.Aluno;
@@ -32,6 +33,13 @@ public class AlunoController extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		//Valida login
+		HttpSession session = request.getSession(false);  
+		if(session.getAttribute("name") == null){ 
+			RequestDispatcher saida = request.getRequestDispatcher("index.jsp");
+			saida.forward(request, response);
+		}
+				
 		String method = request.getParameter("method");
 		
 		if (method.equals("listar")) {
@@ -61,17 +69,6 @@ public class AlunoController extends HttpServlet {
 				
 				RequestDispatcher saida = request.getRequestDispatcher("cadastroAluno.jsp");
 				saida.forward(request, response);
-			} catch(Exception e) {
-				response.sendRedirect("AlunoController.do?method=listar");
-			}
-		} else if (method.startsWith("excluir")) {
-			try {
-				int codmatricula = Integer.parseInt(request.getParameter("id"));
-				AlunoDAO alunoDAO = new AlunoDAO();
-				Aluno aluno = alunoDAO.buscarAlunoPorMatricula(codmatricula);
-				
-				alunoDAO.remover(aluno);
-				response.sendRedirect("AlunoController.do?method=listar");
 			} catch(Exception e) {
 				response.sendRedirect("AlunoController.do?method=listar");
 			}

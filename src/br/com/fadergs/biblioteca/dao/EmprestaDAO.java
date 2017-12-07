@@ -133,6 +133,8 @@ public class EmprestaDAO {
 			preparador_livro.execute();
 			preparador_livro.close();
 			
+			this.vefificarAluno(empresta.getCodmatricula());
+			
 			System.out.println("Devolvido com sucesso!");
 			
 		} catch (SQLException e) {
@@ -233,7 +235,7 @@ public class EmprestaDAO {
 	
 	public List<Empresta> buscarEmprestimos () {
 		
-		String sql = "Select * from empresta em, livros lv where lv.codlivro = em.codlivro and lv.situacao = 'Indisponivel' and em.dtentrega IS NULL";
+		String sql = "Select * from empresta";
 		List<Empresta> emprestimosLista = new ArrayList<Empresta>();
 		try {
 			Statement statement = con.createStatement();
@@ -312,6 +314,36 @@ public class EmprestaDAO {
 		
 	}
 	
+	
+	public void vefificarAluno(int codmatricula) {
+		String sql = "SELECT COUNT(*) AS totalemprestimos FROM empresta WHERE dtentrega IS NULL AND codmatricula = ?";
+		try {
+			PreparedStatement preparador = con.prepareStatement(sql);
+			preparador.setInt(1, codmatricula);
+			ResultSet result = preparador.executeQuery();
+		
+			while (result.next()) {
+				if (result.getInt(1) == 0) {
+					String sqlAluno = "UPDATE alunos SET situacao = 'Ativo' WHERE codmatricula = ?";
+					try {
+						PreparedStatement preparador2 = con.prepareStatement(sqlAluno);
+						preparador2.setInt(1, codmatricula);
+						preparador2.executeQuery();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+								
+			}
+			preparador.close();
+			
+			
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			
+		}
+	}
 	
 
 }
